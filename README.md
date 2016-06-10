@@ -8,3 +8,4 @@ Guidelines:
 - Minimum use of variables and global variables
 - Create Reuseable Code - Do not repeat same code neither with different variables nor with different conditions
 - Add Change Log to your branch each time you commit
+- Remove unnecessary code from your application
