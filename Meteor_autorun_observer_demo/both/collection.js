@@ -1,4 +1,9 @@
+/*------- Mongo collection --------*/
+
 Student = new Meteor.Collection('student');
+
+
+/*------- Schema for Collection ----------*/
 
 Students = new SimpleSchema({
   firstname: {
