@@ -1,6 +1,6 @@
 <head>
-  	<title>Autorun Observer Demo</title>
-  	<link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <title>Autorun Observer Demo</title>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
 </head>
 
 <template name="AddRecordForm">
@@ -44,12 +44,12 @@
 									<td>{{Address}}</td>
 									<td>
 										{{#afModal class="btn btn-primary" collection="Student" operation="update" doc=_id  title="Update record"}}
-		  									<i class="fa fa-pencil" aria-hidden="true"></i>
+		  								<i class="fa fa-pencil" aria-hidden="true"></i>
 										{{/afModal}}
 									</td>
 									<td>
 										{{#afModal class="btn btn-danger" collection="Student" operation="remove" doc=_id prompt="Are you sure for deleting this record ?" title="Delete record"}}
-		  									<i class="fa fa-trash" aria-hidden="true"></i>
+		  								<i class="fa fa-trash" aria-hidden="true"></i>
 										{{/afModal}}
 									</td>
 								</tr>

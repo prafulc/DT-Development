@@ -1,3 +1,3 @@
 Meteor.publish('studentRecord', function() {
-  	return Student.find();
+  return Student.find();
 });
