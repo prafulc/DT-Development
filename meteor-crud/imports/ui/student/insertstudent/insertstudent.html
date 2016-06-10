@@ -1,0 +1,17 @@
+<template name="insertstudent">
+	<h3>Add Student</h3>
+	<!--{{> quickForm collection="Students" id="insertstudent" type="insert"}}-->
+
+	{{#autoForm collection="Students" type="insert" id="insertstudent"}}
+	  {{> afQuickField name="name" type="text" }}
+	  {{> afQuickField name="phone" type="number" }}
+	  {{> afQuickField name="city" type="select"}}
+	  {{> afQuickField name="gender" type="select-radio-inline"}}
+	  {{> afQuickField name="description" type="textarea" }}
+	  <div class="form-group">
+	    <button type="submit" class="btn btn-primary">Submit</button>
+	  </div>
+	{{/autoForm}}
+
+    
+</template>

@@ -1,0 +1,14 @@
+<template name="home">
+	<div class="mainbody">
+		{{#if currentUser }}
+			{{#if currentUser.services.facebook }}
+				<h2 class="form-group">Welcome {{ currentUser.profile.name}}.</h2>
+			{{else}}
+				<h2 class="form-group">Welcome {{ currentUser.username}}.</h2>
+			{{/if}}	
+		{{else}}
+			<h2 class="form-group">Welcome Dear. Please <a href="/sign_in">Sign-In</a> First</h2>
+		{{/if}}	
+	</div>
+	
+</template>

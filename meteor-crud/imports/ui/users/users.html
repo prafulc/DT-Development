@@ -1,0 +1,23 @@
+<template name="users">
+	<h2>Registered Users are:</h2>
+
+	<table class="responstable">
+	  <tr>
+	  	<th>Name</th>
+	    <th>Email</th>
+	    <th>Action</th>
+	  </tr>
+	  {{#each userlist}}
+		  <tr>
+		  	{{#if services.facebook }}
+			    <td>{{ services.facebook.name }}</td>
+			    <td>{{ services.facebook.email }}</td>
+		  	{{else}}
+			    <td>{{ username }}</td>
+			    <td>{{ emails.[0].address }}</td>
+		  	{{/if}}
+		    <td><a href="/users/update/{{_id}}" ><img src="images/update.png" width="20px" height="20px" title="Update"></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/users/delete/{{_id}}" ><img src="images/delete.png"  width="20px" height="20px" title="Delete"></a></td>
+		  </tr>	  		
+      {{/each}}
+	</table>	  
+</template>

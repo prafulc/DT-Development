@@ -1,0 +1,56 @@
+<template name="updateuser">
+	<h2>User update</h2>
+	{{#with userdetails}}
+	<form name="UserUpdateForm" method="POST" class="updateuser">
+
+		{{#if services.facebook }}
+
+			<fieldset class="form-group">
+				<input type="hidden" id="usercamefrom" name="usercamefrom" value="facebook">
+				<input type="hidden" id="userid" name="userid" value="{{_id}}">
+			    <label for="NameField">Name</label>
+			    <input type="text" name="name"  class="form-control" id="NameField" value="{{services.facebook.name}}">
+			</fieldset>
+
+
+			<fieldset class="form-group">
+			    <label for="email">Email address</label>
+			    <input type="email" id="EmailField" name="email" class="form-control" value="{{services.facebook.email}}">
+			    <small class="text-muted">We'll never share your email with anyone else.</small>
+			</fieldset>
+
+
+			<fieldset class="form-group">
+			    <label for="gender">Gender</label>
+			    <input type="text" id="GenderField" name="gender" class="form-control" value="{{services.facebook.gender}}">
+			</fieldset>
+
+		{{else}}
+			 <fieldset class="form-group">
+				<input type="hidden" id="usercamefrom" name="usercamefrom" value="genuine">
+				<input type="hidden" id="userid" name="userid" value="{{_id}}">
+			    <label for="NameField">Username</label>
+			    <input type="text" name="username"  class="form-control" id="NameField" value="{{username}}">
+			 </fieldset>
+
+			<fieldset class="form-group">
+			    <label for="email">Email address</label>
+			    <input type="email" id="EmailField" name="email" class="form-control"  value="{{emails.[0].address}}">
+			    <small class="text-muted">We'll never share your email with anyone else.</small>
+			</fieldset>
+
+			 <fieldset class="form-group">
+			    <label for="MobileField">Contact</label>
+			    <input type="mobile" name="contact" class="form-control" id="MobileField"  value="{{profile.contact}}">
+			 </fieldset>
+		{{/if}}	
+
+		 <fieldset class="form-group">
+			 <div class="btn-group btn-group-lg" role="group" aria-label="...">
+			 	  <button type="submit" class="btn btn-default" name="submit" id="submit">Submit</button>	
+			 </div>
+		 </fieldset>	
+		 
+	</form>
+	{{/with}}
+</template>

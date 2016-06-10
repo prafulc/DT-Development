@@ -1,0 +1,29 @@
+<template name="signin">
+	<form name="SigninForm" method="POST" class="userlogin">
+		
+
+		<fieldset class="form-group">
+			<button id="facebook-login" class="btn btn-default"> Login with Facebook</button>
+		</fieldset>
+
+
+
+		<fieldset class="form-group">
+		    <label for="email">Email address</label>
+		    <input type="email" id="EmailField" name="email" class="form-control" placeholder="Enter your email/username">
+		    <small class="text-muted">We'll never share your email/username with anyone else.</small>
+		</fieldset>
+		
+		<fieldset class="form-group">
+		    <label for="password">Password</label>
+		    <input type="password" id="PasswordField" name="password" class="form-control" placeholder="Enter your password">
+		</fieldset>
+		
+		<fieldset class="form-group">
+			<div class="btn-group btn-group-lg" role="group" aria-label="...">
+			 	<button type="submit" class="btn btn-default" name="submit" id="submit">Submit</button>	
+			</div>
+		</fieldset>	
+		 
+	</form>
+</template>

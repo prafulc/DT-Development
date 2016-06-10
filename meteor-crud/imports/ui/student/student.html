@@ -1,0 +1,21 @@
+<template name="student">
+	<h2>Students are:</h2>
+	<table class="responstable">
+	  <tr>
+	  	<th>Name</th>
+	    <th>City</th>
+	    <th>Gender</th>
+	    <th>Mobile</th>
+	    <th>Action</th>
+	  </tr>
+	  {{#each students}}
+		  <tr>
+		    <td>{{name}}</td>
+		    <td>{{city}}</td>
+		    <td>{{gender}}</td>
+		    <td>{{phone}}</td>
+		    <td><a href="/students/update/{{_id}}" ><img src="images/update.png" width="20px" height="20px" title="Update"></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/students/delete/{{_id}}" ><img src="images/delete.png"  width="20px" height="20px" title="Delete"></a></td>
+		  </tr>	  		
+      {{/each}}
+	</table> 	  
+</template>
