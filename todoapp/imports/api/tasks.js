@@ -1,8 +1,15 @@
+/*---------- Import statements ----------*/
+
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 
+/*----------- Mongo Collection -----------*/
+
 export const Tasks = new Mongo.Collection('tasks');
+
+
+/*-------------- Publication -------------*/
 
 if (Meteor.isServer) {
   // This code only runs on the server
@@ -15,6 +22,8 @@ if (Meteor.isServer) {
     });
   });
 }
+
+/*----------------- Methods ----------------*/
  
 Meteor.methods({
   'tasks.insert'(text) {
