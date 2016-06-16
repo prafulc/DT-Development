@@ -1,3 +1,5 @@
+/* This file define angular module, which is linked with different routing url and each of which is linked with diff controller */
+
 import angular from 'angular';
 import angularMeteor from 'angular-meteor';
 import uiRouter from 'angular-ui-router';
@@ -17,28 +19,24 @@ export default angular.module('dating', [
 	    .state('home', {
 	      url: '/home',
 	      templateUrl: 'client/home.html',
-        // controller: ['$scope', homeCtrl]
 	      controller:'homeCtrl'
 	    })
 
     	.state('login', {
 		    url: '/login',
 		    templateUrl: 'client/login.html',
-        // controller: ['$scope', loginCtrl]
 	      controller:'loginCtrl'
   		})
 
       .state('forgotpassword', {
         url: '/forgotpassword',
         templateUrl: 'client/forgotpassword.html',
-        // controller: ['$scope', loginCtrl]
         controller:'forgotpasswordCtrl'
       })
 
       .state('user', {
         url: '/user',
         templateUrl: 'client/user.html',
-        // controller: ['$scope', loginCtrl]
         controller:'userCtrl'
       })
  
