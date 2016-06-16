@@ -18,7 +18,7 @@
 	<br>
 
 	<div class="container">
-      <form class="form-signin" ng-submit="register(regCred)">
+      <form name="myForm" class="form-signin" ng-submit="register(regCred)">
           <fieldset>
                 <h2 class="form-signin-heading">Register</h2>
                 <br>
@@ -37,8 +37,25 @@
                 <label for="inputPassword" class="sr-only">Password</label>
                 <input ng-model="regCred.password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
                 <br>
-                <label for="exampleInputFile" class="sr-only">Upload Photo</label>
-                <input ng-model="regCred.file" type="file" id="exampleInputFile">
+                <!-- <label for="exampleInputFile" class="sr-only">Upload Photo</label> -->
+<!-- <input  id="exampleInputFile" type="file" ngf-select ng-model="regCred.picFile" name="file" accept="image/*" ngf-max-size="2MB" required ngf-model-invalid="errorFile">
+      <i ng-show="myForm.file.$error.required">*required</i><br>
+      <i ng-show="myForm.file.$error.maxSize">File too large 
+          {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
+      <img ng-show="myForm.file.$valid" ngf-thumbnail="picFile" class="thumb"> <button ng-click="picFile = null" ng-show="picFile">Remove</button>
+      <br>
+      <button ng-disabled="!myForm.$valid" 
+              ng-click="uploadPic(regCred.picFile)">Submit</button>
+      <span class="progress" ng-show="picFile.progress >= 0">
+        <div style="width:{{regCred.picFile.progress}}%" 
+            ng-bind="regCred.picFile.progress + '%'"></div>
+      </span>
+      <span ng-show="regCred.picFile.result">Upload Successful</span>
+      <span class="err" ng-show="errorMsg">{{errorMsg}}</span> -->
+
+
+<!-- 
+                <input ng-model="regCred.file" type="file" id="exampleInputFile"> -->
                 <br>
                 <label>
                     <input ng-model="regCred.male" type="checkbox" value="male"> Male

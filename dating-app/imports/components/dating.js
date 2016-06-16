@@ -1,12 +1,14 @@
 import angular from 'angular';
 import angularMeteor from 'angular-meteor';
 import uiRouter from 'angular-ui-router';
+import ngFileUpload from 'ng-file-upload';
 import { Meteor } from 'meteor/meteor';
 import { RegUsers } from '../collections/reg_users.js';
  
 export default angular.module('dating', [
   angularMeteor,
-  uiRouter
+  uiRouter,
+  ngFileUpload
 ])
 .config(['$urlRouterProvider', '$stateProvider', '$locationProvider', function($urlRouterProvider, $stateProvider, $locationProvider){
 	$locationProvider.html5Mode(true);
@@ -24,25 +26,41 @@ export default angular.module('dating', [
 		    templateUrl: 'client/login.html',
         // controller: ['$scope', loginCtrl]
 	      controller:'loginCtrl'
-  		});
+  		})
+
+      .state('forgotpassword', {
+        url: '/forgotpassword',
+        templateUrl: 'client/forgotpassword.html',
+        // controller: ['$scope', loginCtrl]
+        controller:'forgotpasswordCtrl'
+      })
+
+      .state('user', {
+        url: '/user',
+        templateUrl: 'client/user.html',
+        // controller: ['$scope', loginCtrl]
+        controller:'userCtrl'
+      })
  
   $urlRouterProvider.otherwise('/home');
 }])
 
-.controller('homeCtrl', ['$scope', '$meteor','$state', function($scope, $meteor, $state) {
+.controller('homeCtrl', ['$scope', '$meteor','$state', 'Upload', '$timeout', function($scope, $meteor, $state, Upload, $timeout) {
    
    $scope.login = function(cred){
       var userCount = RegUsers.find({"email":cred.email, "password":cred.password}).count()
       $scope.cred.email = '';
       $scope.cred.password = '';
       if(userCount==0){
-        $state.go('login');
+        $state.go('login')
+      }else{
+        $state.go('user')
       }
    }
 
    $scope.register = function(regCred){
       Meteor.call('addUser', regCred);
-      
+
       $scope.regCred.firstname = '';
       $scope.regCred.lastname = '';
       $scope.regCred.mobile = '';
@@ -53,9 +71,51 @@ export default angular.module('dating', [
       $scope.regCred.female = '';
    }
 
+    /*$scope.uploadPic = function(file) {
+      console.log("called..........1..");
+      file.upload = Upload.upload({
+        url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
+        data: {username: $scope.regCred.firstname, file: file},
+      });
+
+      file.upload.then(function (response) {
+        console.log("response", response)
+        console.log("file", file)
+        $timeout(function () {
+          file.result = response.data;
+        });
+      }, function (response) {
+        if (response.status > 0)
+          $scope.errorMsg = response.status + ': ' + response.data;
+      }, function (evt) {
+        // Math.min is to fix IE which reports 200% sometimes
+        file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+      });
+    }*/
+
 }])
 
-.controller('loginCtrl', ['$scope', '$stateParams', function($scope, $stateParams) {
+.controller('loginCtrl', ['$scope', '$meteor','$state', function($scope, $meteor,$state) {
 	
-  }]);
+    $scope.login = function(cred){
+        var userCount = RegUsers.find({"email":cred.email, "password":cred.password}).count()
+        $scope.cred.email = '';
+        $scope.cred.password = '';
+        if(userCount==0){
+          $state.go('login')
+        }else{
+          $state.go('user')
+        }
+     }
+
+
+  }])
+
+.controller('forgotpasswordCtrl', ['$scope', '$stateParams', function($scope, $stateParams) {
+  
+  }])
+
+.controller('userCtrl', ['$scope', '$stateParams', function($scope, $stateParams) {
+  
+  }])
 
