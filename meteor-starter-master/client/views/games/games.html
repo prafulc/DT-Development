@@ -1,0 +1,31 @@
+<template name="games">
+	<h2>Add New Game</h2>
+	<table>
+		<tr>
+			<td align="center">
+			<div class="col-lg-14">
+				{{> quickForm collection="Games" id="insertgame" type="insert"}}
+			</div>
+			</td>
+			<td>
+				<div class="col-lg-12 col-sm-12">
+					<h3>Game List</h3>
+					<table class="table-hover" style="margin-left:100px; border:1px solid black; padding: 20px 20px 20px 20px">
+						<tr>
+							<th>Name</th>
+							<th>Rating</th>
+							<th>Category</th>
+						</tr>
+						{{#each gamelist}}
+						<tr style="margin-left:100px; border:1px solid black; padding: 20px 20px 20px 20px">
+							<td class="success">{{name}}</td>
+							<td class="info">{{rating}}</td>
+							<td class="warning">{{category}}</td>
+						</tr>
+						{{/each}}
+					</table>
+				</div>
+			</td>
+		</tr>
+	</table>
+</template>
