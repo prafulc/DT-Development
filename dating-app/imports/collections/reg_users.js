@@ -4,11 +4,13 @@ import { Mongo } from 'meteor/mongo';
 
 import { check } from 'meteor/check';
  
-export const RegUsers = new Mongo.Collection('reg_users');
+export const RegUsers = new Mongo.Collection('users');
 
 Meteor.methods({
  
-  'addUser' (regCred) {
+  'addUser' (fileId, regCred) {
+
+  	console.log("file last", fileId)
     check(regCred.firstname, String);
     check(regCred.mobile, String);
     check(regCred.email, String);
@@ -19,8 +21,9 @@ Meteor.methods({
       lastname:regCred.lastname,
       mobile:regCred.mobile,
       email:regCred.email,
+      username:regCred.email,
       password:regCred.password,
-      file:regCred.file,
+      fileId:fileId,
       male:regCred.male,
       female:regCred.female,
       createdAt: new Date()

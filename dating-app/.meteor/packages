@@ -20,3 +20,7 @@ angular-templates
 pbastowski:angular-babel
 angularui:angular-ui-router
 ian:bootstrap-3
+cfs:gridfs
+cfs:standard-packages
+insecure
+cfs:s3

@@ -6,6 +6,7 @@ import uiRouter from 'angular-ui-router';
 import ngFileUpload from 'ng-file-upload';
 import { Meteor } from 'meteor/meteor';
 import { RegUsers } from '../collections/reg_users.js';
+import { Images } from '../collections/images.js';
  
 export default angular.module('dating', [
   angularMeteor,
@@ -43,8 +44,7 @@ export default angular.module('dating', [
   $urlRouterProvider.otherwise('/home');
 }])
 
-.controller('homeCtrl', ['$scope', '$meteor','$state', 'Upload', '$timeout', function($scope, $meteor, $state, Upload, $timeout) {
-   
+.controller('homeCtrl', ['$scope', '$state', function($scope, $state) {
    $scope.login = function(cred){
       var userCount = RegUsers.find({"email":cred.email, "password":cred.password}).count()
       $scope.cred.email = '';
@@ -57,7 +57,17 @@ export default angular.module('dating', [
    }
 
    $scope.register = function(regCred){
-      Meteor.call('addUser', regCred);
+      var file = $scope.regCred.file;
+      var regCred1 = {};
+      regCred1.firstname = $scope.regCred.firstname;
+      regCred1.lastname = $scope.regCred.lastname;
+      regCred1.mobile = $scope.regCred.mobile;
+      regCred1.email = $scope.regCred.email;
+      regCred1.password = $scope.regCred.password;
+      regCred1.file = $scope.regCred.file;
+      regCred1.male = $scope.regCred.male;
+      regCred1.female = $scope.regCred.female;
+
 
       $scope.regCred.firstname = '';
       $scope.regCred.lastname = '';
@@ -67,34 +77,19 @@ export default angular.module('dating', [
       $scope.regCred.file = '';
       $scope.regCred.male = '';
       $scope.regCred.female = '';
+      angular.element("input[type='file']").val(null);
+      Images.insert(file, function(err, fileObj) {
+           if(err){
+            //handle error
+           }else{
+            var fileId = fileObj. _id;
+            Meteor.call('addUser', fileId, regCred1);
+           }
+      })
    }
-
-    /*$scope.uploadPic = function(file) {
-      console.log("called..........1..");
-      file.upload = Upload.upload({
-        url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
-        data: {username: $scope.regCred.firstname, file: file},
-      });
-
-      file.upload.then(function (response) {
-        console.log("response", response)
-        console.log("file", file)
-        $timeout(function () {
-          file.result = response.data;
-        });
-      }, function (response) {
-        if (response.status > 0)
-          $scope.errorMsg = response.status + ': ' + response.data;
-      }, function (evt) {
-        // Math.min is to fix IE which reports 200% sometimes
-        file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-      });
-    }*/
-
 }])
 
-.controller('loginCtrl', ['$scope', '$meteor','$state', function($scope, $meteor,$state) {
-	
+.controller('loginCtrl', ['$scope', '$meteor','$state', function($scope, $meteor, $state) {
     $scope.login = function(cred){
         var userCount = RegUsers.find({"email":cred.email, "password":cred.password}).count()
         $scope.cred.email = '';
@@ -105,8 +100,6 @@ export default angular.module('dating', [
           $state.go('user')
         }
      }
-
-
   }])
 
 .controller('forgotpasswordCtrl', ['$scope', '$stateParams', function($scope, $stateParams) {
@@ -114,6 +107,24 @@ export default angular.module('dating', [
   }])
 
 .controller('userCtrl', ['$scope', '$stateParams', function($scope, $stateParams) {
-  
+  $scope.userimg = "/images/avatar.png"
+
+
+  //srcset   srcset="http://0.gravatar.com/avatar/39c1bd42f9d28be4e8f22168a7ab8316?s=120&amp;d=mm&amp;r=g 2x"
   }])
 
+.directive('fileModel', ['$parse', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+            
+            element.bind('change', function(){
+                scope.$apply(function(){
+                    modelSetter(scope, element[0].files[0]);
+                });
+            });
+        }
+    };
+}])
