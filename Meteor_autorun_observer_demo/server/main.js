@@ -1,5 +1,3 @@
-import { Meteor } from 'meteor/meteor';
+/*----------- Import collection.js file from imports/api folder ---------*/
 
-Meteor.startup(() => {
-  // code to run on server at startup
-});
+import '../imports/api/collection.js';

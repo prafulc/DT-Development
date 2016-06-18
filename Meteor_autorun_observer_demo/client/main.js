@@ -1,47 +1,18 @@
-import { Template } from 'meteor/templating';
-import './main.html';
+/*----------- Import body.js file from imports/ui folder ---------*/
 
-Template.AddRecordForm.events({
-	'click .add'(e, t) {
-  	e.preventDefault(); 
-  	var fname = t.find('#fname').value;
-  	var lname = t.find('#lname').value;
-  	var email = t.find('#email').value;
-  	var address = t.find('#address').value;
-  	if(fname != "" && lname != "" && email != "" && address != ""){
-  		Meteor.call("insertRecord", fname, lname, email, address);
-  		t.find('#fname').value = "";
-		  t.find('#lname').value = "";
-		  t.find('#email').value = "";
-		  t.find('#address').value = "";
-  	}else{
-  		window.alert("Please input values");
-  	}
+import '../imports/ui/body.js';
+
+/*--------------- Import Flow router package -------------*/
+
+import { FlowRouter } from 'meteor/kadira:flow-router';
+
+/*---- Router for home page ------*/
+
+FlowRouter.route('/', {
+  action: function() {
+
+  	/*---------- Render AddRecordForm template at homepage --------*/
+  	
+    BlazeLayout.render('AddRecordForm');
   }
-});
-
-
-Template.AddRecordForm.helpers({
-  students: function() {
-    return Student.find().fetch();
-  },
-});
-
-Template.AddRecordForm.onRendered(function() {
-  var self = this;
-  self.autorun(function() {
-    self.subscribe("studentRecord");
-  });
-
-  Student.find().observe({
-  	added: function(document){
-  		console.log("Record added ->", document._id);
-  	},
-  	changed: function(newDocument, oldDocument) {
-    	console.log("Record changed ->", newDocument);
-  	},
-  	removed: function(oldDocument) {
-  		console.log("Record removed ->", oldDocument._id);
-  	}
-  })
 });
