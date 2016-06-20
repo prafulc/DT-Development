@@ -3,69 +3,75 @@
 	   <img src="/images/logo.jpg" alt="Responsive image" style="height: 60px;    width: 350px;">
 		  <div style="float: right;">
 		  	  <div class="form-group">
-		  	  	<input ng-model="cred.email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+		  	  	<input ng-model="cred.email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus autocomplete="off">
 			  </div>
 			  <div class="form-group">
-			    <input ng-model="cred.password" type="password" class="form-control" id="password" placeholder="password" required>
+			    <input ng-model="cred.password" type="password" class="form-control" id="password" placeholder="password" required autocomplete="off">
 			  </div>
 			  <button type="submit" class="btn btn-default">Login</button>	
 		  </div>
 	</form>
 </div>
-	
-	<br>
-	<br>
-	<br>
+<br><br><br>
+<div class="container">
+    <form name="myForm" class="form-signin" ng-submit="register(regCred)">
+        <fieldset>
+            <h2 class="form-signin-heading">Register</h2>
+            <br>
+            <label for="firstname" class="sr-only">First name</label>
+            <input ng-model="regCred.firstname" type="text" id="firstname" class="form-control" placeholder="First name" required autofocus autocomplete="off">
+            <br>
+            <label for="lastname" class="sr-only">Last name</label>
+            <input ng-model="regCred.lastname" type="text" id="lastname" class="form-control" placeholder="Last name" autocomplete="off">
+            <br>
+            <label for="mobile" class="sr-only">Mobile</label>
+            <input ng-model="regCred.mobile" type="text" id="mobile" class="form-control" placeholder="Mobile" required autocomplete="off">
+            <br>
+            <label for="email" class="sr-only">Email</label>
+            <input ng-model="regCred.email" type="email" id="email" class="form-control" placeholder="Email" required autocomplete="off">
+            <br>
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input ng-model="regCred.password" type="password" id="inputPassword" class="form-control" placeholder="Password" required autocomplete="off">
+            <br>
+            
+            <label for="age" class="sr-only">age</label>
+            <input ng-model="regCred.age" type="text" id="age" class="form-control" placeholder="age" autocomplete="off"><br>
 
-	<div class="container">
-      <form name="myForm" class="form-signin" ng-submit="register(regCred)">
-          <fieldset>
-                <h2 class="form-signin-heading">Register</h2>
-                <br>
-                <label for="firstname" class="sr-only">First name</label>
-                <input ng-model="regCred.firstname" type="text" id="firstname" class="form-control" placeholder="First name" required autofocus>
-                <br>
-                <label for="lastname" class="sr-only">Last name</label>
-                <input ng-model="regCred.lastname" type="text" id="lastname" class="form-control" placeholder="Last name">
-                <br>
-                <label for="mobile" class="sr-only">Mobile</label>
-                <input ng-model="regCred.mobile" type="text" id="mobile" class="form-control" placeholder="Mobile" required>
-                <br>
-                <label for="email" class="sr-only">Email</label>
-                <input ng-model="regCred.email" type="email" id="email" class="form-control" placeholder="Email" required>
-                <br>
-                <label for="inputPassword" class="sr-only">Password</label>
-                <input ng-model="regCred.password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-                <br>
-                <!-- <label for="exampleInputFile" class="sr-only">Upload Photo</label> -->
-                <input type="file" file-model="regCred.file"/>
-                <!-- <button ng-click="uploadFile()">upload me</button> -->
+            <label for="martial_status" class="sr-only">martial_status</label>
+            <input ng-model="regCred.martial_status" type="text" id="martial_status" class="form-control" placeholder="martial_status" autocomplete="off"><br>
 
-<!-- <input  id="exampleInputFile" type="file" ngf-select ng-model="regCred.picFile" name="file" accept="image/*" ngf-max-size="2MB" required ngf-model-invalid="errorFile">
-      <i ng-show="myForm.file.$error.required">*required</i><br>
-      <i ng-show="myForm.file.$error.maxSize">File too large 
-          {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
-      <img ng-show="myForm.file.$valid" ngf-thumbnail="picFile" class="thumb"> <button ng-click="picFile = null" ng-show="picFile">Remove</button>
-      <br>
-      <button ng-disabled="!myForm.$valid" 
-              ng-click="uploadPic(regCred.picFile)">Submit</button>
-      <span class="progress" ng-show="picFile.progress >= 0">
-        <div style="width:{{regCred.picFile.progress}}%" 
-            ng-bind="regCred.picFile.progress + '%'"></div>
-      </span>
-      <span ng-show="regCred.picFile.result">Upload Successful</span>
-      <span class="err" ng-show="errorMsg">{{errorMsg}}</span> -->
+            <label for="height" class="sr-only">height</label>
+            <input ng-model="regCred.height" type="text" id="height" class="form-control" placeholder="height" autocomplete="off"><br>
 
+            <label for="body_type" class="sr-only">body_type</label>
+            <input ng-model="regCred.body_type" type="text" id="body_type" class="form-control" placeholder="body_type" autocomplete="off"><br>
 
-<!-- 
-                <input ng-model="regCred.file" type="file" id="exampleInputFile"> -->
+            <label for="any_disability" class="sr-only">any_disability</label>
+            <input ng-model="regCred.any_disability" type="text" id="any_disability" class="form-control" placeholder="any_disability" autocomplete="off"><br>
+
+            <label for="weight" class="sr-only">weight</label>
+            <input ng-model="regCred.weight" type="text" id="weight" class="form-control" placeholder="weight" autocomplete="off"><br>
+
+            <label for="religion" class="sr-only">religion</label>
+            <input ng-model="regCred.religion" type="text" id="religion" class="form-control" placeholder="religion" autocomplete="off"><br>
+
+            <label for="interest" class="sr-only">interest</label>
+            <input ng-model="regCred.interest" type="text" id="interest" class="form-control" placeholder="interest" autocomplete="off"><br>
+
+            <label for="hobbies" class="sr-only">hobbies</label>
+            <input ng-model="regCred.hobbies" type="text" id="hobbies" class="form-control" placeholder="hobbies" autocomplete="off"><br>
+         
+            <label>
+                <input ng-model="regCred.male" type="checkbox" value="male" autocomplete="off"> Male
+                <input ng-model="regCred.female" type="checkbox" value="female" autocomplete="off"> Female
                 <br>
-                <label>
-                    <input ng-model="regCred.male" type="checkbox" value="male"> Male
-                    <input ng-model="regCred.female" type="checkbox" value="female"> Female
-                </label>
-                <br>       
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
-          </fieldset>
-      </form>
-    </div>
+                <input ng-model="regCred.email_verified" type="checkbox" value="email_verified" autocomplete="off">Email Verified
+                <input ng-model="regCred.subscribe" type="checkbox" value="subscribe" autocomplete="off">Subscribe
+            </label>
+            <br>   
+           <input type="file" file-model="regCred.file" autocomplete="off">
+            <br>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+        </fieldset>
+    </form>
+</div>

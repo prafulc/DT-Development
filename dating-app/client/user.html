@@ -1,9 +1,6 @@
 <nav>   
     <div id="navbar" class="navbar-collapse collapse">
      <img src="/images/logo.jpg" alt="Responsive image" style="height: 60px;    width: 350px;">
-      
-
-
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></a>
@@ -12,7 +9,7 @@
               <li><a href="#">Membership</a></li>
               <li><a href="#">logout</a></li>
             </ul>
-          </li>
+         </li>
       </ul> 
       <img alt="" ng-src="{{userimg}}" class="avatar avatar-60 photo navbar-right" height="50" width="39.28">
     </div>
@@ -28,4 +25,11 @@
 		</ul>
     </div>
   </div>
+</div>
+
+<div class="progress">
+  <div class="progress-bar progress-bar-success" style="width: 25%"><span>Email Verification ({{email_verified}})</span></div>
+  <div class="progress-bar progress-bar-warning" style="width: 25%"><span>Image Uploaded ({{image_uploaded}})</span></div>
+  <div class="progress-bar progress-bar-danger" style="width: 25%"><span>Personal Detail ({{personal_detail}})</span></div>
+  <div class="progress-bar progress-bar-info" style="width: 25%"><span>Paid Member ({{subscription}})</span></div>
 </div>

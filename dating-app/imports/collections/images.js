@@ -8,6 +8,14 @@ export const Images = new FS.Collection("images", {
  	stores: [imageStore]
 })
 
+if (Meteor.isServer) {
+  // This code only runs on the server
+  Meteor.publish('images', function() {
+    return Images.find()
+  })
+}
+
+
 
 Images.allow({
     'insert': function () {

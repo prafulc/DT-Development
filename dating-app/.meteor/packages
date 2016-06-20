@@ -15,7 +15,6 @@ standard-minifier-css   # CSS minifier run for production mode
 standard-minifier-js    # JS minifier run for production mode
 es5-shim                # ECMAScript 5 compatibility for older browsers.
 
-autopublish             # Publish all data to the clients (for prototyping)
 angular-templates
 pbastowski:angular-babel
 angularui:angular-ui-router
@@ -24,3 +23,4 @@ cfs:gridfs
 cfs:standard-packages
 insecure
 cfs:s3
+session

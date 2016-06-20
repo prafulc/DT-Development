@@ -8,6 +8,11 @@ import { Meteor } from 'meteor/meteor';
 import { RegUsers } from '../collections/reg_users.js';
 import { Images } from '../collections/images.js';
  
+
+Meteor.subscribe('reg_users');
+Meteor.subscribe('images');
+
+
 export default angular.module('dating', [
   angularMeteor,
   uiRouter,
@@ -44,16 +49,9 @@ export default angular.module('dating', [
   $urlRouterProvider.otherwise('/home');
 }])
 
-.controller('homeCtrl', ['$scope', '$state', function($scope, $state) {
+.controller('homeCtrl', ['$scope', '$state', 'Data', 'Account', function($scope, $state, Data, Account) {
    $scope.login = function(cred){
-      var userCount = RegUsers.find({"email":cred.email, "password":cred.password}).count()
-      $scope.cred.email = '';
-      $scope.cred.password = '';
-      if(userCount==0){
-        $state.go('login')
-      }else{
-        $state.go('user')
-      }
+      Account.login($scope, $state, cred, Data)
    }
 
    $scope.register = function(regCred){
@@ -78,39 +76,51 @@ export default angular.module('dating', [
       $scope.regCred.male = '';
       $scope.regCred.female = '';
       angular.element("input[type='file']").val(null);
-      Images.insert(file, function(err, fileObj) {
-           if(err){
-            //handle error
-           }else{
-            var fileId = fileObj. _id;
-            Meteor.call('addUser', fileId, regCred1);
-           }
-      })
+      var cred = {"email":regCred1.email, "password":regCred1.password}
+      if(file){
+          Images.insert(file, function(err, fileObj) {
+             if(err){
+              //handle error
+             }else{
+                if(fileObj && fileObj._id){
+                    var fileId = fileObj._id;
+                    Meteor.call('addUser', fileId, regCred1, function(err, res){
+                      if(!err){
+                        Account.login($scope, $state, cred, Data);
+                      }
+                    });
+                }
+             }
+          })
+      }else{
+          Meteor.call('addUser', undefined, regCred1);
+          Account.login($scope, $state, cred, Data);
+      }
+      
    }
 }])
 
-.controller('loginCtrl', ['$scope', '$meteor','$state', function($scope, $meteor, $state) {
+.controller('loginCtrl', ['$scope', '$state', 'Data', 'Account', function($scope, $state, Data, Account) {
     $scope.login = function(cred){
-        var userCount = RegUsers.find({"email":cred.email, "password":cred.password}).count()
-        $scope.cred.email = '';
-        $scope.cred.password = '';
-        if(userCount==0){
-          $state.go('login')
-        }else{
-          $state.go('user')
-        }
-     }
+      Account.login($scope, $state, cred, Data)
+    }
   }])
 
 .controller('forgotpasswordCtrl', ['$scope', '$stateParams', function($scope, $stateParams) {
   
   }])
 
-.controller('userCtrl', ['$scope', '$stateParams', function($scope, $stateParams) {
-  $scope.userimg = "/images/avatar.png"
+.controller('userCtrl', ['$scope', 'Data', function($scope, Data) {
+    if(Data.getCurrentUserFileId()){
+       $scope.userimg = "/cfs/files/images/"+Data.getCurrentUserFileId()
+    }else{
+       $scope.userimg = "/images/avatar.png"
+    }
+    $scope.email_verified = "Completed"
+    $scope.image_uploaded = "Not Completed"
+    $scope.personal_detail = "Completed"
+    $scope.subscription = "Not Completed"
 
-
-  //srcset   srcset="http://0.gravatar.com/avatar/39c1bd42f9d28be4e8f22168a7ab8316?s=120&amp;d=mm&amp;r=g 2x"
   }])
 
 .directive('fileModel', ['$parse', function ($parse) {
@@ -128,3 +138,41 @@ export default angular.module('dating', [
         }
     };
 }])
+
+.factory('Data', function () {
+    var data = {
+        userId: '',
+        fileId:''
+    }
+    return {
+        getCurrentUserId: function () {
+            return data.userId;
+        },
+        setCurrentUserId: function (userId) {
+            data.userId = userId;
+        },
+        getCurrentUserFileId : function (){
+            return data.fileId;
+        },
+        setCurrentUserFileId : function (fileId){
+            data.fileId = fileId;
+        }
+    }
+})
+
+.factory('Account', function () {
+    return {
+      login : function($scope, $state, cred, Data){
+          var userInfo = RegUsers.find({"email":cred.email, "password":cred.password}, {fields:{_id:1, fileId:1}}).fetch()
+          $scope.cred.email = '';
+          $scope.cred.password = '';
+          if(userInfo && userInfo.length>0){
+            Data.setCurrentUserId(userInfo[0]._id)
+            Data.setCurrentUserFileId(userInfo[0].fileId)
+            $state.go('user')
+          }else{
+            $state.go('login')
+          }
+      }
+    }
+})
