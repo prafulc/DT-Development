@@ -5,15 +5,24 @@
     <input type="checkbox" checked="{{checked}}" class="toggle-checked" />
 
     {{#if isOwner}}
-      <button class="toggle-private">
+      <button class="btn btn-default toggle-private">
         {{#if private}}
           Private
         {{else}}
           Public
         {{/if}}
       </button>
+      <button class="btn btn-default toogle-favorite">
+        {{#if favorite}}
+          <!-- <i class="fa fa-star" aria-hidden="true"></i> -->
+          Favorite
+        {{else}}
+          <!-- <i class="fa fa-star-o" aria-hidden="true"></i> -->
+          Not Favorite
+        {{/if}}
+      </button>
     {{/if}}
  
-    <span class="text"><strong>{{username}}</strong> - {{text}}</span>
+    <span class="text"> <strong>{{username}}</strong> - {{text}}</span>
   </li>
 </template>
