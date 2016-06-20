@@ -4,7 +4,11 @@ import { Template } from 'meteor/templating';
 
 /*----------- Import collection.js file from api folder ---------*/
 
-import '../api/collection.js';
+import { Student } from '../api/collection.js';
+
+/*----- Add Student Collection to window scope -----*/
+
+window.Student = Student;
 
 /*----------- Import body.html file from current folder ---------*/
 

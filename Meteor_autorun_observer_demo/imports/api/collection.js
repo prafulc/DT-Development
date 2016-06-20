@@ -12,7 +12,7 @@ import { check } from 'meteor/check';
 
 /*---------- Mongo Collection ----------*/
 
-Student = new Meteor.Collection('student');
+export const Student = new Meteor.Collection('student');
 
 /*---------- Schema for Student collection -------*/
 
@@ -47,7 +47,7 @@ Meteor.methods({
 	/*------------- Method to insert record in Student collection in database --------------*/
 
 	insertRecord: function(fname, lname, email, address){
-
+sssssssssssss
 		check(fname, String);
 		check(lname, String);
 		check(email, String);
@@ -60,6 +60,6 @@ Meteor.methods({
 			"lname": lname,
 			"email": email,
 			"address": address
-		})
+		});
 	}
 });

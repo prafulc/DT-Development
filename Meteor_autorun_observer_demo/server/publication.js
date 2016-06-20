@@ -1,6 +1,6 @@
 /*----------- Import collection.js file from imports/api folder ---------*/
 
-import '../imports/api/collection.js';
+import { Student } from '../imports/api/collection.js';
 
 /*---------- Publish function ----------*/
 
