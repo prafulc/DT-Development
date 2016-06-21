@@ -18,20 +18,20 @@ export const Student = new Meteor.Collection('student');
 
 StudentSchema = new SimpleSchema({
 	firstname: {
-  	type: String,
-  	max: 50
+  		type: String,
+  		max: 50
 	},
 	lastname: {
-  	type: String,
-  	max: 50
+  		type: String,
+  		max: 50
 	},
 	email: {
-  	type: String,
-  	max: 50
+  		type: String,
+  		max: 50
 	},
 	Address: {
-  	type: String,
-  	max: 50
+  		type: String,
+  		max: 50
 	}
 });
 
@@ -47,7 +47,7 @@ Meteor.methods({
 	/*------------- Method to insert record in Student collection in database --------------*/
 
 	insertRecord: function(fname, lname, email, address){
-sssssssssssss
+
 		check(fname, String);
 		check(lname, String);
 		check(email, String);

@@ -6,12 +6,12 @@ import { Student } from '../imports/api/collection.js';
 
 Student.allow({
 	insert: function(userId, doc) {
-  	return true;
+  		return true;
 	},
 	update: function(userId, doc, fieldNames, modifier) {
-  	return true;
+  		return true;
 	},
 	remove: function(userId, doc) {
-  	return true;
+  		return true;
 	}
 });

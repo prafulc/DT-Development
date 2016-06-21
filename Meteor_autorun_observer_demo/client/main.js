@@ -9,10 +9,10 @@ import { FlowRouter } from 'meteor/kadira:flow-router';
 /*---- Router for home page ------*/
 
 FlowRouter.route('/', {
-  action: function() {
+  	action: function() {
 
-  	/*---------- Render AddRecordForm template at homepage --------*/
+  		/*---------- Render AddRecordForm template at homepage --------*/
   	
-    BlazeLayout.render('AddRecordForm');
-  }
+    	BlazeLayout.render('AddRecordForm');
+  	}
 });

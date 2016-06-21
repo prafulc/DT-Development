@@ -5,5 +5,5 @@ import { Student } from '../imports/api/collection.js';
 /*---------- Publish function ----------*/
 
 Meteor.publish('studentRecord', function() {
-  return Student.find();
+  	return Student.find();
 });
