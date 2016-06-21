@@ -7,7 +7,7 @@
             <ul class="dropdown-menu">
               <li><a href="#">Profile</a></li>
               <li><a href="#">Membership</a></li>
-              <li><a href="#">logout</a></li>
+              <li><a href="#" ng-click="logout()">logout</a></li>
             </ul>
          </li>
       </ul> 
@@ -26,10 +26,24 @@
     </div>
   </div>
 </div>
-
+<span>0</span><span style="float: right;">100</span>
 <div class="progress">
-  <div class="progress-bar progress-bar-success" style="width: 25%"><span>Email Verification ({{email_verified}})</span></div>
-  <div class="progress-bar progress-bar-warning" style="width: 25%"><span>Image Uploaded ({{image_uploaded}})</span></div>
-  <div class="progress-bar progress-bar-danger" style="width: 25%"><span>Personal Detail ({{personal_detail}})</span></div>
-  <div class="progress-bar progress-bar-info" style="width: 25%"><span>Paid Member ({{subscription}})</span></div>
+  <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="{{profile_complete}}" aria-valuemin="0" aria-valuemax="100" style="width: {{profile_complete}}%"><span>Profile {{profile_complete}}% Complete</span></div>
+</div>
+
+
+<div class="page-header">
+  <h1>Profile Info</h1>
+</div>
+<div class="alert alert-success" role="alert">
+    <span>Email Verification ({{email_verified}})</span>
+</div>
+<div class="alert alert-info" role="alert">
+  <span>Image Uploaded ({{image_uploaded}})</span>
+</div>
+<div class="alert alert-warning" role="alert">
+  <span>Personal Detail ({{personal_detail}})</span>
+</div>
+<div class="alert alert-danger" role="alert">
+  <span>Paid Member ({{subscription}})</span>
 </div>

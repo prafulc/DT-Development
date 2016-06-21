@@ -4,12 +4,10 @@ import { Mongo } from 'meteor/mongo';
 
 import { check } from 'meteor/check';
  
-export const RegUsers = new Mongo.Collection('reg_users');
-
 if (Meteor.isServer) {
   // This code only runs on the server
-  Meteor.publish('reg_users', function() {
-    return RegUsers.find()
+  Meteor.publish('users', function() {
+    return Meteor.users.find();
   })
 }
 
@@ -19,17 +17,50 @@ Meteor.methods({
     check(regCred.mobile, String);
     check(regCred.email, String);
     check(regCred.password, String);
-    RegUsers.insert({
-      firstname:regCred.firstname,
-      lastname:regCred.lastname,
-      mobile:regCred.mobile,
-      email:regCred.email,
+
+    var personal_detail = false
+    if(regCred.firstname && regCred.email && regCred.mobile && regCred.interest && regCred.email_verified && fileId){
+    		personal_detail = true
+    }
+
+    var user = {
       username:regCred.email,
-      password:regCred.password,
-      fileId:fileId,
-      male:regCred.male,
-      female:regCred.female,
+    	email:regCred.email,
+  		password:regCred.password,
+  		profile:{
+  				firstname:regCred.firstname,
+		      lastname:regCred.lastname,
+		      mobile:regCred.mobile,      
+		      age:regCred.age,
+		      martial_status:regCred.martial_status,
+		      height:regCred.height,
+		      body_type:regCred.body_type,
+		      any_disability:regCred.any_disability,
+		      weight:regCred.weight,
+		      religion:regCred.religion,
+		      interest:regCred.interest,
+		      hobbies:regCred.hobbies,
+					male:regCred.male,
+		      female:regCred.female
+  		},
+  		email_verified:regCred.email_verified,
+		  subscribe:regCred.subscribe,
+		  personal_detail:personal_detail,
+		  fileId:fileId,
+		  sendVerificationEmail:true,
       createdAt: new Date()
-    })
+    }
+
+    Accounts.createUser(user) 
   },
+
+   'sendVerificationLink'() {
+   	console.log("enter to send email>>>>>>>>>>>>>");
+    var userId = Meteor.userId();
+    console.log("userId/>>>>>>>>>>>>>>>>>>>>"+userId)
+    if ( userId ) {
+    	console.log("hhhhhhhhhhhhhh");
+      return Accounts.sendVerificationEmail( userId );
+    }
+  }
 });

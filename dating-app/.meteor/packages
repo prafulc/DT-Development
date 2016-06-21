@@ -24,3 +24,4 @@ cfs:standard-packages
 insecure
 cfs:s3
 session
+accounts-password

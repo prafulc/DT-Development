@@ -5,11 +5,10 @@ import angularMeteor from 'angular-meteor';
 import uiRouter from 'angular-ui-router';
 import ngFileUpload from 'ng-file-upload';
 import { Meteor } from 'meteor/meteor';
-import { RegUsers } from '../collections/reg_users.js';
 import { Images } from '../collections/images.js';
  
 
-Meteor.subscribe('reg_users');
+Meteor.subscribe('users');
 Meteor.subscribe('images');
 
 
@@ -49,34 +48,24 @@ export default angular.module('dating', [
   $urlRouterProvider.otherwise('/home');
 }])
 
-.controller('homeCtrl', ['$scope', '$state', 'Data', 'Account', function($scope, $state, Data, Account) {
+.controller('homeCtrl', ['$scope', '$state', 'Data', 'UserProfile', function($scope, $state, Data, UserProfile) {
    $scope.login = function(cred){
-      Account.login($scope, $state, cred, Data)
+      UserProfile.isUserExists($scope, $state, cred, Data)
    }
 
    $scope.register = function(regCred){
       var file = $scope.regCred.file;
       var regCred1 = {};
-      regCred1.firstname = $scope.regCred.firstname;
-      regCred1.lastname = $scope.regCred.lastname;
-      regCred1.mobile = $scope.regCred.mobile;
-      regCred1.email = $scope.regCred.email;
-      regCred1.password = $scope.regCred.password;
-      regCred1.file = $scope.regCred.file;
-      regCred1.male = $scope.regCred.male;
-      regCred1.female = $scope.regCred.female;
+      for (var key in $scope.regCred) {
+        regCred1[key] = $scope.regCred[key]
+      }
 
+      for (var key in $scope.regCred) {
+        $scope.regCred[key] = '';
+      }
 
-      $scope.regCred.firstname = '';
-      $scope.regCred.lastname = '';
-      $scope.regCred.mobile = '';
-      $scope.regCred.email = '';
-      $scope.regCred.password = '';
-      $scope.regCred.file = '';
-      $scope.regCred.male = '';
-      $scope.regCred.female = '';
       angular.element("input[type='file']").val(null);
-      var cred = {"email":regCred1.email, "password":regCred1.password}
+      var cred = {"username":regCred1.email}
       if(file){
           Images.insert(file, function(err, fileObj) {
              if(err){
@@ -85,24 +74,32 @@ export default angular.module('dating', [
                 if(fileObj && fileObj._id){
                     var fileId = fileObj._id;
                     Meteor.call('addUser', fileId, regCred1, function(err, res){
+                      console.log("err>>>>>>1>>>>>>>>>"+err);
+                      console.log("res>>>>>>1>>>>>>>>>"+JSON.stringify(res));
                       if(!err){
-                        Account.login($scope, $state, cred, Data);
+                        Meteor.call('sendVerificationLink', function (err, res){
+                            console.log("err>>>>>>>>>>"+err)
+                            if(!err){
+                              console.log("enter>>>>>>>>>>>>");
+                              UserProfile.isUserExists($scope, $state, cred, Data);
+                            }
+                        })  
                       }
-                    });
+                    })
                 }
              }
           })
       }else{
           Meteor.call('addUser', undefined, regCred1);
-          Account.login($scope, $state, cred, Data);
+          UserProfile.isUserExists($scope, $state, cred, Data);
       }
       
    }
 }])
 
-.controller('loginCtrl', ['$scope', '$state', 'Data', 'Account', function($scope, $state, Data, Account) {
+.controller('loginCtrl', ['$scope', '$state', 'Data', 'UserProfile', function($scope, $state, Data, UserProfile) {
     $scope.login = function(cred){
-      Account.login($scope, $state, cred, Data)
+      UserProfile.isUserExists($scope, $state, cred, Data)
     }
   }])
 
@@ -110,16 +107,38 @@ export default angular.module('dating', [
   
   }])
 
-.controller('userCtrl', ['$scope', 'Data', function($scope, Data) {
+.controller('userCtrl', ['$scope', 'Data', '$state', function($scope, Data, $state) {
     if(Data.getCurrentUserFileId()){
        $scope.userimg = "/cfs/files/images/"+Data.getCurrentUserFileId()
     }else{
        $scope.userimg = "/images/avatar.png"
     }
-    $scope.email_verified = "Completed"
+    $scope.email_verified = "Not Completed"
     $scope.image_uploaded = "Not Completed"
-    $scope.personal_detail = "Completed"
+    $scope.personal_detail = "Not Completed"
     $scope.subscription = "Not Completed"
+    var userInfo = Meteor.users.find({"_id":Data.getCurrentUserId()}, {fields:{email_verified:1, fileId:1, subscribe:1, personal_detail:1}}).fetch()
+    if(userInfo && userInfo.length>0){
+      var user = userInfo[0];
+      $scope.email_verified = user && user.email_verified ? "Completed" : "Not Completed"
+      $scope.image_uploaded = user && user.fileId ? "Completed" : "Not Completed"
+      $scope.personal_detail = user && user.personal_detail ? "Completed" : "Not Completed"
+      $scope.subscription = user && user.subscribe ? "Completed" : "Not Completed"
+    }
+    
+    $scope.email_verified_number = $scope.email_verified=="Completed" ? 25 : 0;
+    $scope.image_uploaded_number = $scope.image_uploaded=="Completed" ? 25 : 0;
+    $scope.personal_detail_number = $scope.personal_detail=="Completed" ? 25 : 0;
+    $scope.subscription_number = $scope.subscription=="Completed" ? 25 : 0;
+    $scope.profile_complete = $scope.email_verified_number + $scope.image_uploaded_number + $scope.personal_detail_number + $scope.subscription_number
+
+
+    $scope.logout = function(){
+        Meteor.logout();
+        Data.setCurrentUserId('')
+        Data.setCurrentUserFileId('')
+        $state.go('home')
+    }
 
   }])
 
@@ -160,11 +179,11 @@ export default angular.module('dating', [
     }
 })
 
-.factory('Account', function () {
+.factory('UserProfile', function () {
     return {
-      login : function($scope, $state, cred, Data){
-          var userInfo = RegUsers.find({"email":cred.email, "password":cred.password}, {fields:{_id:1, fileId:1}}).fetch()
-          $scope.cred.email = '';
+      isUserExists : function($scope, $state, cred, Data){
+          var userInfo = Meteor.users.find({"username":cred.username}, {fields:{_id:1, fileId:1}}).fetch()
+          $scope.cred.username = '';
           $scope.cred.password = '';
           if(userInfo && userInfo.length>0){
             Data.setCurrentUserId(userInfo[0]._id)
