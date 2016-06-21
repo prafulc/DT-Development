@@ -1,0 +1,15 @@
+{
+  "name": "TodoAppInReact",
+  "private": true,
+  "scripts": {
+    "start": "meteor run"
+  },
+  "dependencies": {
+    "babel-core": "^6.9.1",
+    "classnames": "^2.2.5",
+    "meteor-node-stubs": "~0.2.0",
+    "react": "^15.1.0",
+    "react-addons-pure-render-mixin": "^15.1.0",
+    "react-dom": "^15.1.0"
+  }
+}
