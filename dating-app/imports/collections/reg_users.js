@@ -19,7 +19,7 @@ Meteor.methods({
     check(regCred.password, String);
 
     var personal_detail = false
-    if(regCred.firstname && regCred.email && regCred.mobile && regCred.interest && regCred.email_verified && fileId){
+    if(regCred.firstname && regCred.email && regCred.mobile && regCred.interest && fileId){
     		personal_detail = true
     }
 
@@ -43,8 +43,7 @@ Meteor.methods({
 					male:regCred.male,
 		      female:regCred.female
   		},
-  		email_verified:regCred.email_verified,
-		  subscribe:regCred.subscribe,
+  		subscribe:regCred.subscribe,
 		  personal_detail:personal_detail,
 		  fileId:fileId,
 		  sendVerificationEmail:true,
@@ -54,13 +53,9 @@ Meteor.methods({
     Accounts.createUser(user) 
   },
 
-   'sendVerificationLink'() {
-   	console.log("enter to send email>>>>>>>>>>>>>");
-    var userId = Meteor.userId();
-    console.log("userId/>>>>>>>>>>>>>>>>>>>>"+userId)
-    if ( userId ) {
-    	console.log("hhhhhhhhhhhhhh");
-      return Accounts.sendVerificationEmail( userId );
+   'sendVerificationLink'(userId) {
+    if (userId) {
+      Accounts.sendVerificationEmail(userId);
     }
   }
 });

@@ -6,11 +6,10 @@ import uiRouter from 'angular-ui-router';
 import ngFileUpload from 'ng-file-upload';
 import { Meteor } from 'meteor/meteor';
 import { Images } from '../collections/images.js';
+import { Accounts } from 'meteor/accounts-base';
  
-
 Meteor.subscribe('users');
 Meteor.subscribe('images');
-
 
 export default angular.module('dating', [
   angularMeteor,
@@ -44,6 +43,12 @@ export default angular.module('dating', [
         templateUrl: 'client/user.html',
         controller:'userCtrl'
       })
+
+      .state('verify-email', {
+        url: '/verify-email/:token',
+        templateUrl: 'client/emailVerification.html',
+        controller:'verifyEmailCtrl'
+      })
  
   $urlRouterProvider.otherwise('/home');
 }])
@@ -65,7 +70,7 @@ export default angular.module('dating', [
       }
 
       angular.element("input[type='file']").val(null);
-      var cred = {"username":regCred1.email}
+      var cred = {"email":regCred1.email, "password":regCred1.password}
       if(file){
           Images.insert(file, function(err, fileObj) {
              if(err){
@@ -74,24 +79,33 @@ export default angular.module('dating', [
                 if(fileObj && fileObj._id){
                     var fileId = fileObj._id;
                     Meteor.call('addUser', fileId, regCred1, function(err, res){
-                      console.log("err>>>>>>1>>>>>>>>>"+err);
-                      console.log("res>>>>>>1>>>>>>>>>"+JSON.stringify(res));
                       if(!err){
-                        Meteor.call('sendVerificationLink', function (err, res){
-                            console.log("err>>>>>>>>>>"+err)
-                            if(!err){
-                              console.log("enter>>>>>>>>>>>>");
-                              UserProfile.isUserExists($scope, $state, cred, Data);
-                            }
-                        })  
+                         var userInfo = Meteor.users.find({"username":regCred1.email}, {fields:{_id:1}}).fetch()
+                         if(userInfo && userInfo.length>0){
+                            Meteor.call('sendVerificationLink', userInfo[0]._id,   function (err, res){
+                              if(!err){
+                                UserProfile.isUserExists($scope, $state, cred, Data);
+                              }
+                            })    
+                         }
                       }
                     })
                 }
              }
           })
       }else{
-          Meteor.call('addUser', undefined, regCred1);
-          UserProfile.isUserExists($scope, $state, cred, Data);
+          Meteor.call('addUser', undefined, regCred1, function(err, res){
+            if(!err){
+               var userInfo = Meteor.users.find({"username":regCred1.email}, {fields:{_id:1}}).fetch()
+               if(userInfo && userInfo.length>0){
+                  Meteor.call('sendVerificationLink', userInfo[0]._id,   function (err, res){
+                    if(!err){
+                      UserProfile.isUserExists($scope, $state, cred, Data);
+                    }
+                  })    
+               }
+            }
+          })
       }
       
    }
@@ -117,10 +131,12 @@ export default angular.module('dating', [
     $scope.image_uploaded = "Not Completed"
     $scope.personal_detail = "Not Completed"
     $scope.subscription = "Not Completed"
-    var userInfo = Meteor.users.find({"_id":Data.getCurrentUserId()}, {fields:{email_verified:1, fileId:1, subscribe:1, personal_detail:1}}).fetch()
+    var userInfo = Meteor.users.find({"_id":Data.getCurrentUserId()}, {fields:{emails:1, fileId:1, subscribe:1, personal_detail:1}}).fetch()
     if(userInfo && userInfo.length>0){
       var user = userInfo[0];
-      $scope.email_verified = user && user.email_verified ? "Completed" : "Not Completed"
+      if(user && user.emails && user.emails.length>0 && user.emails[0].verified==true){
+          $scope.email_verified = "Completed";
+      }
       $scope.image_uploaded = user && user.fileId ? "Completed" : "Not Completed"
       $scope.personal_detail = user && user.personal_detail ? "Completed" : "Not Completed"
       $scope.subscription = user && user.subscribe ? "Completed" : "Not Completed"
@@ -134,10 +150,10 @@ export default angular.module('dating', [
 
 
     $scope.logout = function(){
-        Meteor.logout();
-        Data.setCurrentUserId('')
-        Data.setCurrentUserFileId('')
-        $state.go('home')
+      Meteor.logout();
+      Data.setCurrentUserId('')
+      Data.setCurrentUserFileId('')
+      $state.go('home')
     }
 
   }])
@@ -182,16 +198,28 @@ export default angular.module('dating', [
 .factory('UserProfile', function () {
     return {
       isUserExists : function($scope, $state, cred, Data){
-          var userInfo = Meteor.users.find({"username":cred.username}, {fields:{_id:1, fileId:1}}).fetch()
-          $scope.cred.username = '';
-          $scope.cred.password = '';
-          if(userInfo && userInfo.length>0){
-            Data.setCurrentUserId(userInfo[0]._id)
-            Data.setCurrentUserFileId(userInfo[0].fileId)
-            $state.go('user')
-          }else{
-            $state.go('login')
-          }
+        var userInfo = Meteor.users.find({"username":cred.email}, {fields:{_id:1, fileId:1}}).fetch()
+        $scope.cred.email = '';
+        $scope.cred.password = '';
+        if(userInfo && userInfo.length>0){
+          // Meteor.loginWithPassword(cred.email, cred.password);
+          Data.setCurrentUserId(userInfo[0]._id)
+          Data.setCurrentUserFileId(userInfo[0].fileId)
+          $state.go('user')
+        }else{
+          $state.go('login')
+        }
       }
     }
 })
+
+.controller('verifyEmailCtrl', ['$scope', '$stateParams', function($scope, $stateParams) {
+      var token = $stateParams.token;
+        if(token){
+          Accounts.verifyEmail(token, function (error){
+            if(!error) {
+                  //
+            } 
+          })
+        }
+  }])
