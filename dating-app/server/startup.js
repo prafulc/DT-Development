@@ -22,3 +22,25 @@ Accounts.onCreateUser(function(options, user) {
     return user
 })
 
+// Validate username, sending a specific error message on failure.
+/*Accounts.validateNewUser(function (user) {
+  if(!user.subscribe){
+  	throw new Meteor.Error(403, "must have subscribe");		
+  }
+
+
+  if (user.password && user.password.length >= 6){
+    return true;
+  }else{
+  throw new Meteor.Error(403, "Password must have at least 6 characters");
+  }
+
+
+  if (user.username && user.username.length >= 3){
+    return true;
+  }else{
+  throw new Meteor.Error(403, "Username must have at least 3 characters");
+  }
+});
+
+*/

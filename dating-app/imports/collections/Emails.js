@@ -14,3 +14,16 @@ Accounts.emailTemplates.verifyEmail = {
     return emailBody;
   }
 };
+
+Accounts.emailTemplates.resetPassword = {
+  subject() {
+    return "Reset Your Password";
+  },
+  text( user, url ) {
+    let urlWithoutHash = url.replace( '#/', '' ),
+        supportEmail   = "rajit.deligence@gmail.com",
+        emailBody      = `To reset your password, simply click the link below.\n\n${urlWithoutHash}\n\n If you feel something is wrong, please contact our support team: ${supportEmail}.`;
+
+    return emailBody;
+  }
+};

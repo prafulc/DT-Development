@@ -55,7 +55,7 @@ Meteor.methods({
 
    'sendVerificationLink'(userId) {
     if (userId) {
-      Accounts.sendVerificationEmail(userId);
+      return Accounts.sendVerificationEmail(userId);
     }
   }
 });

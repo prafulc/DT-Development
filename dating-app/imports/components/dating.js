@@ -49,6 +49,22 @@ export default angular.module('dating', [
         templateUrl: 'client/emailVerification.html',
         controller:'verifyEmailCtrl'
       })
+
+      .state('mail-send-successfully', {
+        url: '/mail-send-successfully',
+        templateUrl: 'client/MailSendSuccessfully.html',
+        controller:'mailSendSuccessfullyCtrl'
+      })
+
+      .state('reset-password', {
+        url: '/reset-password/:token',
+        templateUrl: 'client/ResetPassword.html',
+        controller:'resetPasswordCtrl'
+      })
+
+      
+
+       
  
   $urlRouterProvider.otherwise('/home');
 }])
@@ -117,8 +133,15 @@ export default angular.module('dating', [
     }
   }])
 
-.controller('forgotpasswordCtrl', ['$scope', '$stateParams', function($scope, $stateParams) {
-  
+.controller('forgotpasswordCtrl', ['$scope', '$stateParams', '$state', function($scope, $stateParams, $state) {
+      $scope.forgotPassword = function(email){
+        var options = {'email':email}
+        Accounts.forgotPassword(options, function(err){
+            if(!err){
+                $state.go('mail-send-successfully');
+            }
+        })
+      }   
   }])
 
 .controller('userCtrl', ['$scope', 'Data', '$state', function($scope, Data, $state) {
@@ -213,13 +236,34 @@ export default angular.module('dating', [
     }
 })
 
-.controller('verifyEmailCtrl', ['$scope', '$stateParams', function($scope, $stateParams) {
+.controller('verifyEmailCtrl', ['$scope', '$stateParams',  function($scope, $stateParams) {
       var token = $stateParams.token;
         if(token){
           Accounts.verifyEmail(token, function (error){
             if(!error) {
-                  //
+              //
             } 
           })
         }
   }])
+
+.controller('resetPasswordCtrl', ['$scope', '$stateParams', '$state', function($scope, $stateParams, $state) {
+      $scope.resetPassword = function(cred){
+          var newPass1 = cred.newPass1;
+          var newPass2 = cred.newPass2;
+          if(newPass1==newPass2){   
+            var token = $stateParams.token;
+              if(token && newPass1){
+                Accounts.resetPassword(token, newPass1, function (error){
+                  if(!error) {
+                    $state.go('home')
+                  } 
+                })
+              }
+          }
+      }
+  }])
+
+.controller('mailSendSuccessfullyCtrl', ['$scope', '$stateParams', function($scope, $stateParams) {
+
+}])
