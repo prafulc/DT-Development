@@ -28,18 +28,19 @@
       <div class="panel-heading">
         <a href="#"><h3 class="panel-title">Friends</h3></a>
       </div>
+      <div class="panel-heading">
+        <a href="#" ng-click="search()"><h3 class="panel-title">Search</h3></a>
+      </div>
 
     </div>
   </div>
 
-  <div class="col-sm-6">
+  <div class="col-sm-6" ng-show="showProgressBar">
     <div class="panel panel-info">
       <span>0</span><span style="float: right;">100</span>
       <div class="progress">
         <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="{{profile_complete}}" aria-valuemin="0" aria-valuemax="100" style="width: {{profile_complete}}%"><span>Profile {{profile_complete}}% Complete</span></div>
       </div>
-
-
       <div>
         <h3>Profile Info</h3>
       </div>
@@ -57,39 +58,40 @@
       </div>
     </div>
   </div>
-</div>
 
+  <div class="col-sm-6" ng-show="showUsersGridView">
+      <div ng-repeat="user in myUsers" class="panel panel-info" style="float: left;width: 33.33%;">
+        <a href="#" style="float: right;margin-right: 6px;font-size: smaller;color: lightblue;" title="Block">x</a>
+        <div style="text-align: center;">
+          <img alt="" ng-src="/cfs/files/images/{{user.fileId}}" class="avatar avatar-60 photo" height="50" width="39.28">
+            <br>
+          {{user.username}}
+          <br>
+          <p style="float: left;margin: 4px;"><a href="#"><i class="glyphicon glyphicon-eye-open" title="View"></i></a></p> 
+          <p style="float: left;margin: 4px;"><a href="#"><i class="glyphicon glyphicon-comment" title="Chat"></i></a></p> 
+          <p style="float: left;margin: 4px;"><a href="#"><i class="glyphicon glyphicon-envelope" title="Email"></i></a></p> 
+          <p style="float: left;margin: 4px;"><a href="#"><i class="glyphicon glyphicon-ban-circle" title="Block"></i></a></p> 
+          <p style="float: left;margin: 4px;"><a href="#"><i class="fa fa-user-plus" aria-hidden="true" title="Add Friend"></i></a></p>
+        </div>
+      </div>
+  </div>
 
+  <div class="col-sm-6" ng-show="showUsersListView">
+    <div class="list-group">
+        <div ng-repeat="user in myUsers" class="panel panel-info">
+            <a href="#" style="float: right;margin-right: 6px;font-size: smaller;color: lightblue;" title="Block">x</a>
+            <img alt="" ng-src="/cfs/files/images/{{user.fileId}}" class="avatar avatar-60 photo" height="50" width="39.28">
+            {{user.username}}
+            <p style="margin: 15px 3px 1px 3px;float: right;"><a href="#"><span class="glyphicon glyphicon-envelope"></span></a></p> 
+            <p style="margin: 15px 3px 1px 3px;float: right;"><a class="btn btn-default" href="#" role="button">Call/Sms</a></p>
+            <p style="margin: 15px 3px 1px 3px;float: right;"><a href="#"><span class="glyphicon glyphicon-user"></span></a></p>
+            
+        </div>
+    </div>
+  </div>
 
-<div class="row">
-  <div class="col-xs-6 col-lg-4">
-    <h2>Heading</h2>
-    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-    <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-  </div><!--/.col-xs-6.col-lg-4-->
-  <div class="col-xs-6 col-lg-4">
-    <h2>Heading</h2>
-    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-    <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-  </div><!--/.col-xs-6.col-lg-4-->
-  <div class="col-xs-6 col-lg-4">
-    <h2>Heading</h2>
-    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-    <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-  </div><!--/.col-xs-6.col-lg-4-->
-  <div class="col-xs-6 col-lg-4">
-    <h2>Heading</h2>
-    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-    <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-  </div><!--/.col-xs-6.col-lg-4-->
-  <div class="col-xs-6 col-lg-4">
-    <h2>Heading</h2>
-    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-    <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-  </div><!--/.col-xs-6.col-lg-4-->
-  <div class="col-xs-6 col-lg-4">
-    <h2>Heading</h2>
-    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-    <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-  </div><!--/.col-xs-6.col-lg-4-->
+  <div ng-show="currentUser && !showProgressBar">
+    <p style="float: left;margin: 4px;"><a class="btn btn-default" href="#" role="button" ng-show="showUsersGridView" ng-click="showListView()">Show List View</a></p>
+    <p style="float: left;margin: 4px;"><a class="btn btn-default" href="#" role="button" ng-show="showUsersListView" ng-click="showGridView()">Show Grid View</a></p>
+  </div>
 </div>

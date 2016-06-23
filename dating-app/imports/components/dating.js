@@ -178,7 +178,38 @@ export default angular.module('dating', [
       Data.setCurrentUserFileId('')
       $state.go('home')
     }
+    $scope.showProgressBar = true;
+    
+    $scope.search = function(){
+      if($scope.showProgressBar==true){
+          $scope.showUsersGridView = true
+          $scope.showProgressBar=false
+      }else{
+          $scope.showUsersGridView = false
+          $scope.showUsersListView = false
+          $scope.showProgressBar=true
+      }
+    }
 
+    $scope.showGridView = function(){
+      $scope.showUsersListView = false;
+      $scope.showUsersGridView = true;
+    }
+
+    $scope.showListView = function(){
+      $scope.showUsersListView = true;
+      $scope.showUsersGridView = false;
+    }
+    var currentUserId = Data.getCurrentUserId();
+    if(currentUserId){
+        $scope.currentUser = true;
+    }else{
+        $scope.currentUser = false;
+    }
+    
+    $scope.myUsers = Meteor.users.find({_id:{$ne:currentUserId}}, {fields:{fileId:1, firstname:1, lastname:1, username:1}}).fetch()
+
+    
   }])
 
 .directive('fileModel', ['$parse', function ($parse) {
