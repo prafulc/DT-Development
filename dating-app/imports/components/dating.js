@@ -7,6 +7,8 @@ import ngFileUpload from 'ng-file-upload';
 import { Meteor } from 'meteor/meteor';
 import { Images } from '../collections/images.js';
 import { Accounts } from 'meteor/accounts-base';
+
+import { Friends } from '../collections/friends.js';
  
 Meteor.subscribe('users');
 Meteor.subscribe('images');
@@ -180,25 +182,30 @@ export default angular.module('dating', [
     }
     $scope.showProgressBar = true;
     
+    $scope.home = function(){
+      $scope.showUsersGridView = false
+      $scope.showUsersListView = false
+      $scope.showProgressBar=true
+      $scope.showFriendsGridView=false
+    }
+
     $scope.search = function(){
-      if($scope.showProgressBar==true){
-          $scope.showUsersGridView = true
-          $scope.showProgressBar=false
-      }else{
-          $scope.showUsersGridView = false
-          $scope.showUsersListView = false
-          $scope.showProgressBar=true
-      }
+      $scope.showUsersGridView = true
+      $scope.showUsersListView = false
+      $scope.showProgressBar=false
+      $scope.showFriendsGridView=false
     }
 
     $scope.showGridView = function(){
       $scope.showUsersListView = false;
       $scope.showUsersGridView = true;
+      $scope.showFriendsGridView=false
     }
 
     $scope.showListView = function(){
       $scope.showUsersListView = true;
       $scope.showUsersGridView = false;
+      $scope.showFriendsGridView=false
     }
     var currentUserId = Data.getCurrentUserId();
     if(currentUserId){
@@ -207,9 +214,37 @@ export default angular.module('dating', [
         $scope.currentUser = false;
     }
     
-    $scope.myUsers = Meteor.users.find({_id:{$ne:currentUserId}}, {fields:{fileId:1, firstname:1, lastname:1, username:1}}).fetch()
+    $scope.updateMyUsers = function(){
+        var userFriendsIds = Meteor.users.find({_id:currentUserId}, {fields:{friendsIds:1}}).fetch()
+        var friendsIds = [];
+        if(userFriendsIds && userFriendsIds.length>0 && userFriendsIds[0] && userFriendsIds[0].friendsIds){
+            friendsIds = userFriendsIds[0].friendsIds
+        }
+        $scope.myUsers = Meteor.users.find({$and:[{_id:{$ne:currentUserId}}, {_id:{$nin:friendsIds}}]}, {fields:{fileId:1, firstname:1, lastname:1, username:1}}).fetch()
+    }
+
+    $scope.updateMyUsers()
+
+    $scope.addFriend = function(friendId, friendFileId, friendUsername){
+      Meteor.call('addFriend', friendId, currentUserId, friendFileId, friendUsername, function(){
+          Meteor.call('addFriendInUsers', currentUserId, friendId, function(){
+            $scope.updateMyUsers()
+            $scope.$apply()
+          })
+      })     
+    }
 
     
+
+    $scope.showMyFriends = function(){
+        Meteor.subscribe('friends');
+        $scope.myFriends = Friends.find({"userId":currentUserId}).fetch()
+        $scope.showUsersGridView = false
+        $scope.showUsersListView = false
+        $scope.showProgressBar=false
+        $scope.showFriendsGridView=true
+    }
+
   }])
 
 .directive('fileModel', ['$parse', function ($parse) {

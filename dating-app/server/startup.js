@@ -4,21 +4,19 @@ import '../imports/collections/images.js';
 
 import '../imports/collections/Emails.js';
 
+import '../imports/collections/friends.js';
+
 Meteor.startup(function () {
   smtp = {
-    username: 'rajit.deligence@gmail.com',   // eg: server@gentlenode.com
-    password: 'william123A@',   // eg: 3eeP1gtizk5eziohfervU
-    server:   'smtp.gmail.com',  // eg: mail.gandi.net
+    username: 'rajit.deligence@gmail.com',  
+    password: 'william123A@',   
+    server:   'smtp.gmail.com',  
     port: 465
   }
 
   process.env.MAIL_URL = 'smtp://' + encodeURIComponent(smtp.username) + ':' + encodeURIComponent(smtp.password) + '@' + encodeURIComponent(smtp.server) + ':' + smtp.port;
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
 });
-
-/*Meteor.startup( function() {
-  process.env.MAIL_URL = "smtp://postmaster%40sandbox856e4efc82814ecab3736cccb9f2d6b5.mailgun.org:6431f66f43707699ee4e84ae395e40cd@smtp.mailgun.org:587";
-});*/
 
 Accounts.config({
 	sendVerificationEmail: true,
@@ -31,6 +29,7 @@ Accounts.onCreateUser(function(options, user) {
     user['fileId'] = options.fileId
     user['createdAt'] = options.createdAt
     user['profile'] = options.profile
+    user['friendsIds'] = options.friendsIds
     return user
 })
 

@@ -15,18 +15,17 @@
     </div>
 </nav>
 
-
 <div class="row">
   <div class="col-sm-3" style="margin-left: 1%;">
     <div class="panel panel-info">
       <div class="panel-heading">
-        <a href="#"><h3 class="panel-title">Home</h3></a>
+        <a href="#" ng-click="home()"><h3 class="panel-title">Home</h3></a>
       </div>
       <div class="panel-heading">
         <a href="#"><h3 class="panel-title">Message</h3></a>
       </div>
       <div class="panel-heading">
-        <a href="#"><h3 class="panel-title">Friends</h3></a>
+        <a href="#" ng-click="showMyFriends()"><h3 class="panel-title">Friends</h3></a>
       </div>
       <div class="panel-heading">
         <a href="#" ng-click="search()"><h3 class="panel-title">Search</h3></a>
@@ -42,19 +41,19 @@
         <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="{{profile_complete}}" aria-valuemin="0" aria-valuemax="100" style="width: {{profile_complete}}%"><span>Profile {{profile_complete}}% Complete</span></div>
       </div>
       <div>
-        <h3>Profile Info</h3>
+        <h4 class="text-muted">Profile Info</h4>
       </div>
-      <div class="alert-success" role="alert">
-          <span>&#x2713; Email Verification ({{email_verified}})</span>
+      <div>
+          <span class="text-muted"><span ng-show="email_verified=='Completed'">&#x2713;</span><span ng-show="email_verified=='Not Completed'">&#x2717; </span>Email Verification ({{email_verified}})</span>
       </div>
-      <div class="alert-info" role="alert">
-        <span>&#x2713; Image Uploaded ({{image_uploaded}})</span>
+      <div>
+        <span class="text-muted"><span ng-show="image_uploaded=='Completed'">&#x2713;</span><span ng-show="image_uploaded=='Not Completed'">&#x2717; </span>Image Uploaded ({{image_uploaded}})</span>
       </div>
-      <div class="alert-warning" role="alert">
-        <span>&#x2713; Personal Detail ({{personal_detail}})</span>
+      <div>
+        <span class="text-muted"><span ng-show="personal_detail=='Completed'">&#x2713;</span><span ng-show="personal_detail=='Not Completed'">&#x2717; </span>Personal Detail ({{personal_detail}})</span>
       </div>
-      <div class="alert-danger" role="alert">
-        <span>&#x2713; Paid Member ({{subscription}})</span>
+      <div>
+        <span class="text-muted"><span ng-show="subscription=='Completed'">&#x2713;</span><span ng-show="subscription=='Not Completed'">&#x2717; </span>Paid Member ({{subscription}})</span>
       </div>
     </div>
   </div>
@@ -67,11 +66,11 @@
             <br>
           {{user.username}}
           <br>
-          <p style="float: left;margin: 4px;"><a href="#"><i class="glyphicon glyphicon-eye-open" title="View"></i></a></p> 
-          <p style="float: left;margin: 4px;"><a href="#"><i class="glyphicon glyphicon-comment" title="Chat"></i></a></p> 
-          <p style="float: left;margin: 4px;"><a href="#"><i class="glyphicon glyphicon-envelope" title="Email"></i></a></p> 
-          <p style="float: left;margin: 4px;"><a href="#"><i class="glyphicon glyphicon-ban-circle" title="Block"></i></a></p> 
-          <p style="float: left;margin: 4px;"><a href="#"><i class="fa fa-user-plus" aria-hidden="true" title="Add Friend"></i></a></p>
+          <p style="float: left;margin: 15px;"><a href="#"><i class="glyphicon glyphicon-eye-open" title="View"></i></a></p> 
+          <p style="float: left;margin: 15px;"><a href="#"><i class="glyphicon glyphicon-comment" title="Chat"></i></a></p> 
+          <p style="float: left;margin: 15px;"><a href="#"><i class="glyphicon glyphicon-envelope" title="Email"></i></a></p> 
+          <p style="float: left;margin: 15px;"><a href="#"><i class="glyphicon glyphicon-ban-circle" title="Block"></i></a></p> 
+          <p style="float: left;margin: 15px;"><a href="#" ng-click="addFriend(user._id, user.fileId, user.username)"><i class="fa fa-user-plus" aria-hidden="true" title="Add Friend"></i></a></p>
         </div>
       </div>
   </div>
@@ -82,9 +81,11 @@
             <a href="#" style="float: right;margin-right: 6px;font-size: smaller;color: lightblue;" title="Block">x</a>
             <img alt="" ng-src="/cfs/files/images/{{user.fileId}}" class="avatar avatar-60 photo" height="50" width="39.28">
             {{user.username}}
-            <p style="margin: 15px 3px 1px 3px;float: right;"><a href="#"><span class="glyphicon glyphicon-envelope"></span></a></p> 
-            <p style="margin: 15px 3px 1px 3px;float: right;"><a class="btn btn-default" href="#" role="button">Call/Sms</a></p>
-            <p style="margin: 15px 3px 1px 3px;float: right;"><a href="#"><span class="glyphicon glyphicon-user"></span></a></p>
+            <p style="margin: 20px 5px 1px 5px;float: right;"><a href="#"><i class="fa fa-user-plus" aria-hidden="true" title="Add Friend"></i></a></p> 
+            <p style="margin: 20px 5px 1px 5px;float: right;"><a href="#"><i class="glyphicon glyphicon-ban-circle" title="Block"></i></a></p>
+            <p style="margin: 20px 5px 1px 5px;float: right;"><a href="#"><i class="glyphicon glyphicon-envelope" title="Email"></i></a></p>
+            <p style="margin: 20px 5px 1px 5px;float: right;"><a href="#"><i class="glyphicon glyphicon-comment" title="Chat"></i></a></p>
+            <p style="margin: 20px 5px 1px 5px;float: right;"><a href="#"><i class="glyphicon glyphicon-eye-open" title="View"></i></a></p>
             
         </div>
     </div>
@@ -94,4 +95,21 @@
     <p style="float: left;margin: 4px;"><a class="btn btn-default" href="#" role="button" ng-show="showUsersGridView" ng-click="showListView()">Show List View</a></p>
     <p style="float: left;margin: 4px;"><a class="btn btn-default" href="#" role="button" ng-show="showUsersListView" ng-click="showGridView()">Show Grid View</a></p>
   </div>
+
+  <div class="col-sm-6" ng-show="showFriendsGridView">
+      <div ng-repeat="friend in myFriends" class="panel panel-info" style="float: left;width: 33.33%;">
+        <a href="#" style="float: right;margin-right: 6px;font-size: smaller;color: lightblue;" title="Block">x</a>
+        <div style="text-align: center;">
+          <img alt="" ng-src="/cfs/files/images/{{friend.friendFileId}}" class="avatar avatar-60 photo" height="50" width="39.28">
+            <br>
+          {{friend.friendUsername}}
+          <br>
+          <p style="float: left;margin: 15px 21px;"><a href="#"><i class="glyphicon glyphicon-eye-open" title="View"></i></a></p> 
+          <p style="float: left;margin: 15px 21px;"><a href="#"><i class="glyphicon glyphicon-comment" title="Chat"></i></a></p> 
+          <p style="float: left;margin: 15px 21px;"><a href="#"><i class="glyphicon glyphicon-envelope" title="Email"></i></a></p> 
+          <p style="float: left;margin: 15px 21px;"><a href="#"><i class="glyphicon glyphicon-ban-circle" title="Block"></i></a></p> 
+        </div>
+      </div>
+  </div>
 </div>
+
