@@ -9,6 +9,8 @@ import { Images } from '../collections/images.js';
 import { Accounts } from 'meteor/accounts-base';
 
 import { Friends } from '../collections/friends.js';
+
+import { Blocks } from '../collections/blocks.js';
  
 Meteor.subscribe('users');
 Meteor.subscribe('images');
@@ -178,6 +180,7 @@ export default angular.module('dating', [
       Meteor.logout();
       Data.setCurrentUserId('')
       Data.setCurrentUserFileId('')
+      Data.resetTemporarilyHideUsers()
       $state.go('home')
     }
     $scope.showProgressBar = true;
@@ -187,6 +190,7 @@ export default angular.module('dating', [
       $scope.showUsersListView = false
       $scope.showProgressBar=true
       $scope.showFriendsGridView=false
+      $scope.showBlockedGridView=false
     }
 
     $scope.search = function(){
@@ -194,18 +198,21 @@ export default angular.module('dating', [
       $scope.showUsersListView = false
       $scope.showProgressBar=false
       $scope.showFriendsGridView=false
+      $scope.showBlockedGridView=false
     }
 
     $scope.showGridView = function(){
       $scope.showUsersListView = false;
       $scope.showUsersGridView = true;
       $scope.showFriendsGridView=false
+      $scope.showBlockedGridView=false
     }
 
     $scope.showListView = function(){
       $scope.showUsersListView = true;
       $scope.showUsersGridView = false;
       $scope.showFriendsGridView=false
+      $scope.showBlockedGridView=false
     }
     var currentUserId = Data.getCurrentUserId();
     if(currentUserId){
@@ -215,12 +222,22 @@ export default angular.module('dating', [
     }
     
     $scope.updateMyUsers = function(){
-        var userFriendsIds = Meteor.users.find({_id:currentUserId}, {fields:{friendsIds:1}}).fetch()
+        var userFriendsIds = Meteor.users.find({_id:currentUserId}, {fields:{friendsIds:1, blockedIds:1, iAmBlockedBy:1}}).fetch()
         var friendsIds = [];
         if(userFriendsIds && userFriendsIds.length>0 && userFriendsIds[0] && userFriendsIds[0].friendsIds){
             friendsIds = userFriendsIds[0].friendsIds
         }
-        $scope.myUsers = Meteor.users.find({$and:[{_id:{$ne:currentUserId}}, {_id:{$nin:friendsIds}}]}, {fields:{fileId:1, firstname:1, lastname:1, username:1}}).fetch()
+
+        var blockedIds = [];
+        if(userFriendsIds && userFriendsIds.length>0 && userFriendsIds[0] && userFriendsIds[0].blockedIds){
+            blockedIds = userFriendsIds[0].blockedIds
+        }
+
+        var iAmBlockedBy = [];
+        if(userFriendsIds && userFriendsIds.length>0 && userFriendsIds[0] && userFriendsIds[0].iAmBlockedBy){
+            iAmBlockedBy = userFriendsIds[0].iAmBlockedBy
+        }
+        $scope.myUsers = Meteor.users.find({$and:[{_id:{$ne:currentUserId}}, {_id:{$nin:friendsIds}},  {_id:{$nin:blockedIds}}, {_id:{$nin:iAmBlockedBy}},  {_id:{$nin:Data.getTemporarilyHideUsers()}}]}, {fields:{fileId:1, firstname:1, lastname:1, username:1}}).fetch()
     }
 
     $scope.updateMyUsers()
@@ -234,15 +251,56 @@ export default angular.module('dating', [
       })     
     }
 
-    
+    $scope.addBlock = function(userId, userFileId, userUsername){
+      Meteor.call('addBlock', userId, currentUserId, userFileId, userUsername, function(){
+          Meteor.call('addBlockedInUsers', currentUserId, userId, function(){
+            Meteor.call('addIamBlockedByUsers', currentUserId, userId, function(){
+              $scope.updateMyUsers()
+              $scope.$apply()
+            })
+          })
+      })     
+    }
 
-    $scope.showMyFriends = function(){
+    $scope.hideUserTemporarily = function(friendId){
+        Data.setTemporarilyHideUsers(friendId)
+        $scope.updateMyUsers()
+        $scope.$apply()     
+    }
+
+    $scope.getCurrentUserFriends = function(){
         Meteor.subscribe('friends');
         $scope.myFriends = Friends.find({"userId":currentUserId}).fetch()
+     }
+
+    $scope.getCurrentUserFriends()
+  
+
+    $scope.showMyFriends = function(){
+        $scope.getCurrentUserFriends()
         $scope.showUsersGridView = false
         $scope.showUsersListView = false
         $scope.showProgressBar=false
         $scope.showFriendsGridView=true
+        $scope.showBlockedGridView=false
+        $scope.$apply()
+    }
+
+    $scope.getCurrentUserBlocks = function(){
+        Meteor.subscribe('blocks');
+        $scope.myBlocks = Blocks.find({"currentUserId":currentUserId}).fetch()
+    }
+
+    $scope.getCurrentUserBlocks()
+
+    $scope.showBlockedUsers = function(){
+        $scope.getCurrentUserBlocks()
+        $scope.showUsersGridView = false
+        $scope.showUsersListView = false
+        $scope.showProgressBar=false
+        $scope.showFriendsGridView=false
+        $scope.showBlockedGridView=true
+        $scope.$apply()
     }
 
   }])
@@ -266,7 +324,8 @@ export default angular.module('dating', [
 .factory('Data', function () {
     var data = {
         userId: '',
-        fileId:''
+        fileId:'',
+        hideUsers:[]
     }
     return {
         getCurrentUserId: function () {
@@ -280,6 +339,15 @@ export default angular.module('dating', [
         },
         setCurrentUserFileId : function (fileId){
             data.fileId = fileId;
+        },
+        getTemporarilyHideUsers : function (){
+            return data.hideUsers;
+        },
+        setTemporarilyHideUsers : function (userId){
+            data.hideUsers.push(userId)
+        },
+        resetTemporarilyHideUsers : function (){
+            data.hideUsers = [];
         }
     }
 })

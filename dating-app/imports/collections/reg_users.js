@@ -32,21 +32,17 @@ Meteor.methods({
 		      lastname:regCred.lastname,
 		      mobile:regCred.mobile,      
 		      age:regCred.age,
-		      martial_status:regCred.martial_status,
 		      height:regCred.height,
 		      body_type:regCred.body_type,
-		      any_disability:regCred.any_disability,
 		      weight:regCred.weight,
 		      religion:regCred.religion,
 		      interest:regCred.interest,
 		      hobbies:regCred.hobbies,
-					male:regCred.male,
-		      female:regCred.female
+					gender:regCred.gender
   		},
   		subscribe:regCred.subscribe,
 		  personal_detail:personal_detail,
 		  fileId:fileId,
-		  sendVerificationEmail:true,
       createdAt: new Date()
     }
 

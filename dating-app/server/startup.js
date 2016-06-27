@@ -6,6 +6,8 @@ import '../imports/collections/Emails.js';
 
 import '../imports/collections/friends.js';
 
+import '../imports/collections/blocks.js';
+
 Meteor.startup(function () {
   smtp = {
     username: 'rajit.deligence@gmail.com',  

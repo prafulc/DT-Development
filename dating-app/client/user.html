@@ -28,6 +28,9 @@
         <a href="#" ng-click="showMyFriends()"><h3 class="panel-title">Friends</h3></a>
       </div>
       <div class="panel-heading">
+        <a href="#" ng-click="showBlockedUsers()"><h3 class="panel-title">Blocks</h3></a>
+      </div>
+      <div class="panel-heading">
         <a href="#" ng-click="search()"><h3 class="panel-title">Search</h3></a>
       </div>
 
@@ -60,7 +63,7 @@
 
   <div class="col-sm-6" ng-show="showUsersGridView">
       <div ng-repeat="user in myUsers" class="panel panel-info" style="float: left;width: 33.33%;">
-        <a href="#" style="float: right;margin-right: 6px;font-size: smaller;color: lightblue;" title="Block">x</a>
+        <a href="#" ng-click="hideUserTemporarily(user._id)" style="float: right;margin-right: 6px;font-size: smaller;color: lightblue;" title="Hide">x</a>
         <div style="text-align: center;">
           <img alt="" ng-src="/cfs/files/images/{{user.fileId}}" class="avatar avatar-60 photo" height="50" width="39.28">
             <br>
@@ -69,7 +72,7 @@
           <p style="float: left;margin: 15px;"><a href="#"><i class="glyphicon glyphicon-eye-open" title="View"></i></a></p> 
           <p style="float: left;margin: 15px;"><a href="#"><i class="glyphicon glyphicon-comment" title="Chat"></i></a></p> 
           <p style="float: left;margin: 15px;"><a href="#"><i class="glyphicon glyphicon-envelope" title="Email"></i></a></p> 
-          <p style="float: left;margin: 15px;"><a href="#"><i class="glyphicon glyphicon-ban-circle" title="Block"></i></a></p> 
+          <p style="float: left;margin: 15px;"><a href="#" ng-click="addBlock(user._id, user.fileId, user.username)"><i class="glyphicon glyphicon-ban-circle" title="Block"></i></a></p> 
           <p style="float: left;margin: 15px;"><a href="#" ng-click="addFriend(user._id, user.fileId, user.username)"><i class="fa fa-user-plus" aria-hidden="true" title="Add Friend"></i></a></p>
         </div>
       </div>
@@ -78,10 +81,10 @@
   <div class="col-sm-6" ng-show="showUsersListView">
     <div class="list-group">
         <div ng-repeat="user in myUsers" class="panel panel-info">
-            <a href="#" style="float: right;margin-right: 6px;font-size: smaller;color: lightblue;" title="Block">x</a>
+            <a href="#" ng-click="hideUserTemporarily(user._id)" style="float: right;margin-right: 6px;font-size: smaller;color: lightblue;" title="Hide">x</a>
             <img alt="" ng-src="/cfs/files/images/{{user.fileId}}" class="avatar avatar-60 photo" height="50" width="39.28">
             {{user.username}}
-            <p style="margin: 20px 5px 1px 5px;float: right;"><a href="#"><i class="fa fa-user-plus" aria-hidden="true" title="Add Friend"></i></a></p> 
+            <p style="margin: 20px 5px 1px 5px;float: right;"><a href="#" ng-click="addFriend(user._id, user.fileId, user.username)"><i class="fa fa-user-plus" aria-hidden="true" title="Add Friend"></i></a></p> 
             <p style="margin: 20px 5px 1px 5px;float: right;"><a href="#"><i class="glyphicon glyphicon-ban-circle" title="Block"></i></a></p>
             <p style="margin: 20px 5px 1px 5px;float: right;"><a href="#"><i class="glyphicon glyphicon-envelope" title="Email"></i></a></p>
             <p style="margin: 20px 5px 1px 5px;float: right;"><a href="#"><i class="glyphicon glyphicon-comment" title="Chat"></i></a></p>
@@ -91,14 +94,14 @@
     </div>
   </div>
 
-  <div ng-show="currentUser && !showProgressBar">
+  <div ng-show="currentUser && !showProgressBar && myUsers.length>0">
     <p style="float: left;margin: 4px;"><a class="btn btn-default" href="#" role="button" ng-show="showUsersGridView" ng-click="showListView()">Show List View</a></p>
     <p style="float: left;margin: 4px;"><a class="btn btn-default" href="#" role="button" ng-show="showUsersListView" ng-click="showGridView()">Show Grid View</a></p>
   </div>
 
   <div class="col-sm-6" ng-show="showFriendsGridView">
       <div ng-repeat="friend in myFriends" class="panel panel-info" style="float: left;width: 33.33%;">
-        <a href="#" style="float: right;margin-right: 6px;font-size: smaller;color: lightblue;" title="Block">x</a>
+        <a href="#" style="float: right;margin-right: 6px;font-size: smaller;color: lightblue;" title="Hide">x</a>
         <div style="text-align: center;">
           <img alt="" ng-src="/cfs/files/images/{{friend.friendFileId}}" class="avatar avatar-60 photo" height="50" width="39.28">
             <br>
@@ -111,5 +114,22 @@
         </div>
       </div>
   </div>
+
+  <div class="col-sm-6" ng-show="showBlockedGridView">
+      <div ng-repeat="block in myBlocks" class="panel panel-info" style="float: left;width: 33.33%;">
+        <a href="#" style="float: right;margin-right: 6px;font-size: smaller;color: lightblue;" title="Hide">x</a>
+        <div style="text-align: center;">
+          <img alt="" ng-src="/cfs/files/images/{{block.userFileId}}" class="avatar avatar-60 photo" height="50" width="39.28">
+            <br>
+          {{block.userUsername}}
+          <br>
+          <span style="text-align: center;margin: 30px;"><a href="#"><i class="glyphicon glyphicon-eye-open" title="View"></i></a></span> 
+          <span style="text-align: center;margin: 30px"><a href="#"><i class="fa fa-unlock" aria-hidden="true" title="Un-Block"></i></a></span> 
+        </div>
+      </div>
+  </div>
+
+
+
 </div>
 
