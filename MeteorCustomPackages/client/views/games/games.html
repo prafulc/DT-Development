@@ -1,0 +1,68 @@
+<template name="games">
+	<div class="template-profile">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4">
+					<h3>Games:</h3>
+					{{#afModal title="Add Game" class="text-primary" collection="Games" operation="insert"}}
+						<button class="btn btn-default"><i class="fa fa-plus" buttonContent="Add New Game"></i>&nbsp;&nbsp;{{_ "Games"}}</button> 
+					{{/afModal}}
+				</div>
+				<div class="col-md-8" style="border:0px solid green">
+
+					<table class="zui-table zui-table-rounded">
+					    <thead>
+					        <tr>
+					            <th>Name</th>
+					            <th>Picture</th>
+					            <th>Category</th>
+					            <th>Created at</th>
+					            <th>Updated at</th>
+					            <th>Description</th>
+					        </tr>
+					    </thead>
+					    <tbody>
+					    	{{#each game in gamesAddedByCurrentUser}}
+						        <tr>
+						            <td>{{ game.name }}</td>
+						            <td>{{#with getDoc game.picture 'Attachments'}}
+											<img src="{{ url }}" height="50px" width="50px" class="img-thumbnail img-rounded">
+										{{/with}}
+									</td>	
+						            <!--<td><img src="{{ game.picture }}" height="100px" width="100px"></td>-->
+						            <td>{{ game.category }}</td>
+						            <td>{{ game.createdAt }}</td>
+						            <td>{{ game.updatedAt }}</td>
+						            <td>{{ game.description }}</td>
+						        </tr>
+						    {{/each}}   
+					    </tbody>
+					</table>
+				
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+
+<!--
+<template name="profile">
+	<div class="template-profile">
+		<div class="container">
+			<div class="row">
+				{{#autoForm id="updatePicture" collection=Users doc=User type="update"}}
+				<div class="col-md-4">
+						{{> afQuickField name="profile.picture"}}
+				</div>
+				{{/autoForm}}
+				{{#autoForm id="updateProfile" collection=Users doc=User type="update"}}
+				<div class="col-md-8">
+					{{> afQuickField name='profile' omitFields="profile.picture"}}
+					<button type="submit" class="btn btn-primary">{{_ "update"}}</button>
+				</div>
+				{{/autoForm}}
+			</div>
+		</div>
+	</div>
+</template>
+-->
