@@ -19,7 +19,7 @@ Topics:
 	
 	2. External style->
 
-		`javascript
+		```javascript
 		<Text style={styles.base} />
 		<View style={styles.background} />
 
@@ -35,4 +35,4 @@ Topics:
 		    	borderWidth: 2,
 		    	borderColor: '#00ff00',
 		  	},
-		});`
+		});```
