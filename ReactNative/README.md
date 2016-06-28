@@ -5,20 +5,20 @@ Important points, that should be take care
 - Only check output on Mobile device not emulator, becuase emulator occupy more than 1gb space in ram.
 
 Topics:
-- Text-> We use <Text> tag on the place of <p>.
-- View-> We use <View> tag on the place of <div>.
+- Text-> We use <Text> tag on the place of `<p>`.
+- View-> We use <View> tag on the place of `<div>`.
 - Images-> It is use for insert images.
 - TouchableOpacity-> It is work like button.
 - We use style sheet in two ways ->
 	
 	1. Inline style->
 			
-		<View style={[ { width: 10, height: 10 }]} />
+		`<View style={[ { width: 10, height: 10 }]} />`
 
 	
 	2. External style->
 
-		<Text style={styles.base} />
+		`<Text style={styles.base} />
 		<View style={styles.background} />
 
 		var styles = StyleSheet.create({
@@ -33,4 +33,4 @@ Topics:
 		    borderWidth: 2,
 		    borderColor: '#00ff00',
 		  },
-		});
+		});`
