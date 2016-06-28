@@ -19,7 +19,8 @@ Topics:
 	
 	2. External style->
 
-		``<Text style={styles.base} />
+		````javascript
+		<Text style={styles.base} />
 		<View style={styles.background} />``
 
 		`var styles = StyleSheet.create({
@@ -34,4 +35,4 @@ Topics:
 		    	borderWidth: 2,
 		    	borderColor: '#00ff00',
 		  	},
-		});`
+		});````
