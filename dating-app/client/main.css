@@ -65,3 +65,42 @@ input[type=radio]:checked + label:after {
   margin-left: 30px;
   margin-bottom: 30px;
 }
+
+.wrapper_chat {
+    margin:0 auto;
+    padding-bottom:25px;
+    background:#EBF4FB;
+    width:45%;
+    border:1px solid #ACD8F0; 
+}
+   
+.chatbox_chat {
+    text-align:left;
+    margin:0 auto;
+    margin-bottom:25px;
+    padding:10px;
+    background:#fff;
+    height:500px;
+    width:90%;
+    border:1px solid #ACD8F0;
+    overflow:auto; 
+  }
+  
+.usermsg_chat {
+    /*width:395px;*/
+    border:1px solid #ACD8F0; 
+      padding: 10px; width: 88%; margin-right: .5%;
+  }
+
+.timestamp_chat {
+  font-size: smaller;
+  color: darkgray
+}
+
+.menu_chat { 
+  padding:12.5px 25px 12.5px 25px; 
+}
+  
+.welcome { float:left; }
+  
+

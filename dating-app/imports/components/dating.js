@@ -4,6 +4,7 @@ import angular from 'angular';
 import angularMeteor from 'angular-meteor';
 import uiRouter from 'angular-ui-router';
 import ngFileUpload from 'ng-file-upload';
+import angularMoment from 'angular-moment';
 import { Meteor } from 'meteor/meteor';
 import { Images } from '../collections/images.js';
 import { Accounts } from 'meteor/accounts-base';
@@ -11,6 +12,8 @@ import { Accounts } from 'meteor/accounts-base';
 import { Friends } from '../collections/friends.js';
 
 import { Blocks } from '../collections/blocks.js';
+
+import { Chats } from '../collections/chats.js';
  
 Meteor.subscribe('users');
 Meteor.subscribe('images');
@@ -18,7 +21,8 @@ Meteor.subscribe('images');
 export default angular.module('dating', [
   angularMeteor,
   uiRouter,
-  ngFileUpload
+  ngFileUpload,
+  angularMoment
 ])
 .config(['$urlRouterProvider', '$stateProvider', '$locationProvider', function($urlRouterProvider, $stateProvider, $locationProvider){
 	$locationProvider.html5Mode(true);
@@ -181,6 +185,10 @@ export default angular.module('dating', [
       Data.setCurrentUserId('')
       Data.setCurrentUserFileId('')
       Data.resetTemporarilyHideUsers()
+      Data.setSelectedUserId('')
+      Data.setSelectedUserUsername('')
+      Data.setSelectedUserFileId('')
+      Data.setCurrentUserUsername('')
       $state.go('home')
     }
     $scope.showProgressBar = true;
@@ -191,6 +199,7 @@ export default angular.module('dating', [
       $scope.showProgressBar=true
       $scope.showFriendsGridView=false
       $scope.showBlockedGridView=false
+       $scope.showUsersChatView=false
     }
 
     $scope.search = function(){
@@ -199,6 +208,7 @@ export default angular.module('dating', [
       $scope.showProgressBar=false
       $scope.showFriendsGridView=false
       $scope.showBlockedGridView=false
+       $scope.showUsersChatView=false
     }
 
     $scope.showGridView = function(){
@@ -206,6 +216,7 @@ export default angular.module('dating', [
       $scope.showUsersGridView = true;
       $scope.showFriendsGridView=false
       $scope.showBlockedGridView=false
+       $scope.showUsersChatView=false
     }
 
     $scope.showListView = function(){
@@ -213,6 +224,7 @@ export default angular.module('dating', [
       $scope.showUsersGridView = false;
       $scope.showFriendsGridView=false
       $scope.showBlockedGridView=false
+       $scope.showUsersChatView=false
     }
     var currentUserId = Data.getCurrentUserId();
     if(currentUserId){
@@ -246,7 +258,9 @@ export default angular.module('dating', [
       Meteor.call('addFriend', friendId, currentUserId, friendFileId, friendUsername, function(){
           Meteor.call('addFriendInUsers', currentUserId, friendId, function(){
             $scope.updateMyUsers()
-            $scope.$apply()
+            if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                $scope.$apply();
+            }
           })
       })     
     }
@@ -256,7 +270,9 @@ export default angular.module('dating', [
           Meteor.call('addBlockedInUsers', currentUserId, userId, function(){
             Meteor.call('addIamBlockedByUsers', currentUserId, userId, function(){
               $scope.updateMyUsers()
-              $scope.$apply()
+              if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                  $scope.$apply();
+              }
             })
           })
       })     
@@ -265,7 +281,9 @@ export default angular.module('dating', [
     $scope.hideUserTemporarily = function(friendId){
         Data.setTemporarilyHideUsers(friendId)
         $scope.updateMyUsers()
-        $scope.$apply()     
+        if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+            $scope.$apply();
+        }
     }
 
     $scope.getCurrentUserFriends = function(){
@@ -283,7 +301,10 @@ export default angular.module('dating', [
         $scope.showProgressBar=false
         $scope.showFriendsGridView=true
         $scope.showBlockedGridView=false
-        $scope.$apply()
+        $scope.showUsersChatView=false
+        if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+            $scope.$apply();
+        }
     }
 
     $scope.getCurrentUserBlocks = function(){
@@ -300,7 +321,51 @@ export default angular.module('dating', [
         $scope.showProgressBar=false
         $scope.showFriendsGridView=false
         $scope.showBlockedGridView=true
-        $scope.$apply()
+        $scope.showUsersChatView=false
+        if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+            $scope.$apply();
+        }
+    }
+
+    
+
+    $scope.getCurrentUserChats = function(selectedUserId, currentUserId){
+        Meteor.subscribe('chats');
+        $scope.chats = Chats.find({"selectedUserId":selectedUserId, "currentUserId":currentUserId}).fetch()
+    }
+
+    $scope.showChatView = function(selectedUserId, selectedUserUsername, selectedUserFileId){
+        Data.setSelectedUserId(selectedUserId)
+        Data.setSelectedUserUsername(selectedUserUsername)
+        Data.setSelectedUserFileId(selectedUserFileId)
+        $scope.getCurrentUserChats(selectedUserId, currentUserId)
+        $scope.selectedUserFileId = selectedUserFileId
+        $scope.selectedUserUsername = selectedUserUsername
+        $scope.showUsersGridView = false
+        $scope.showUsersListView = false
+        $scope.showProgressBar=false
+        $scope.showFriendsGridView=false
+        $scope.showBlockedGridView=false
+        $scope.showUsersChatView=true
+        if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+            $scope.$apply();
+        }
+    }
+
+    $scope.sendMessage = function(message){
+        var selectedUserId = Data.getSelectedUserId()
+        var selectedUserUsername = Data.getSelectedUserUsername()
+        var selectedUserFileId = Data.getSelectedUserFileId()
+        var currentUserName = Data.getCurrentUserUsername()
+        Meteor.call('addChat', selectedUserId, currentUserId, selectedUserUsername, selectedUserFileId, message, currentUserName, function(){
+          $scope.message = '';
+          $scope.getCurrentUserChats(selectedUserId, currentUserId)
+          if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+            $scope.$apply();
+          }
+        })
+        
+
     }
 
   }])
@@ -325,7 +390,11 @@ export default angular.module('dating', [
     var data = {
         userId: '',
         fileId:'',
-        hideUsers:[]
+        username:'',
+        hideUsers:[],
+        selectedUserId:'',
+        selectedUserName:'',
+        selectedFileId:''
     }
     return {
         getCurrentUserId: function () {
@@ -333,6 +402,12 @@ export default angular.module('dating', [
         },
         setCurrentUserId: function (userId) {
             data.userId = userId;
+        },
+        setCurrentUserUsername:function(username){
+            data.username = username;
+        },
+        getCurrentUserUsername:function(){
+           return data.username;
         },
         getCurrentUserFileId : function (){
             return data.fileId;
@@ -348,18 +423,37 @@ export default angular.module('dating', [
         },
         resetTemporarilyHideUsers : function (){
             data.hideUsers = [];
-        }
+        },
+        setSelectedUserId:function(userId){
+            data.selectedUserId = userId;
+        },
+        setSelectedUserUsername:function(username){
+            data.selectedUserName = username;
+        },
+        setSelectedUserFileId:function(fileId){
+            data.selectedFileId = fileId;
+        },
+        getSelectedUserId:function(){
+            return data.selectedUserId;
+        },
+        getSelectedUserUsername:function(){
+            return data.selectedUserName;
+        },
+        getSelectedUserFileId:function(){
+            return data.selectedFileId;
+        },
     }
 })
 
 .factory('UserProfile', function () {
     return {
       isUserExists : function($scope, $state, cred, Data){
-        var userInfo = Meteor.users.find({"username":cred.email}, {fields:{_id:1, fileId:1}}).fetch()
+        var userInfo = Meteor.users.find({"username":cred.email}, {fields:{_id:1, fileId:1, username:1}}).fetch()
         $scope.cred.email = '';
         $scope.cred.password = '';
         if(userInfo && userInfo.length>0){
           // Meteor.loginWithPassword(cred.email, cred.password);
+          Data.setCurrentUserUsername(userInfo[0].username)
           Data.setCurrentUserId(userInfo[0]._id)
           Data.setCurrentUserFileId(userInfo[0].fileId)
           $state.go('user')
@@ -401,3 +495,19 @@ export default angular.module('dating', [
 .controller('mailSendSuccessfullyCtrl', ['$scope', '$stateParams', function($scope, $stateParams) {
 
 }])
+
+.directive('schrollBottom', function () {
+  return {
+    scope: {
+      schrollBottom: "="
+    },
+    link: function (scope, element) {
+      scope.$watchCollection('schrollBottom', function (newValue) {
+        if (newValue)
+        {
+          $(element).scrollTop($(element)[0].scrollHeight);
+        }
+      });
+    }
+  }
+})

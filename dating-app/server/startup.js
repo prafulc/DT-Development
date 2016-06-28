@@ -8,6 +8,8 @@ import '../imports/collections/friends.js';
 
 import '../imports/collections/blocks.js';
 
+import '../imports/collections/chats.js';
+
 Meteor.startup(function () {
   smtp = {
     username: 'rajit.deligence@gmail.com',  

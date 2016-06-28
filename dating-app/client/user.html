@@ -38,25 +38,25 @@
   </div>
 
   <div class="col-sm-6" ng-show="showProgressBar">
-    <div class="panel panel-info">
+    <div class="well">
       <span>0</span><span style="float: right;">100</span>
       <div class="progress">
         <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="{{profile_complete}}" aria-valuemin="0" aria-valuemax="100" style="width: {{profile_complete}}%"><span>Profile {{profile_complete}}% Complete</span></div>
       </div>
       <div>
-        <h4 class="text-muted">Profile Info</h4>
+        <h3 class="text-muted">Profile Info</h3>
       </div>
       <div>
-          <span class="text-muted"><span ng-show="email_verified=='Completed'">&#x2713;</span><span ng-show="email_verified=='Not Completed'">&#x2717; </span>Email Verification ({{email_verified}})</span>
+          <span class="text-muted"><span style="color: green;" ng-show="email_verified=='Completed'">&#x2713;</span><span style="color: red;" ng-show="email_verified=='Not Completed'">&#x2717; </span> Email Verification ({{email_verified}})</span>
       </div>
       <div>
-        <span class="text-muted"><span ng-show="image_uploaded=='Completed'">&#x2713;</span><span ng-show="image_uploaded=='Not Completed'">&#x2717; </span>Image Uploaded ({{image_uploaded}})</span>
+        <span class="text-muted"><span style="color: green;" ng-show="image_uploaded=='Completed'">&#x2713;</span><span style="color: red;" ng-show="image_uploaded=='Not Completed'">&#x2717; </span> Image Uploaded ({{image_uploaded}})</span>
       </div>
       <div>
-        <span class="text-muted"><span ng-show="personal_detail=='Completed'">&#x2713;</span><span ng-show="personal_detail=='Not Completed'">&#x2717; </span>Personal Detail ({{personal_detail}})</span>
+        <span class="text-muted"><span style="color: green;" ng-show="personal_detail=='Completed'">&#x2713;</span><span style="color: red;" ng-show="personal_detail=='Not Completed'">&#x2717; </span> Personal Detail ({{personal_detail}})</span>
       </div>
       <div>
-        <span class="text-muted"><span ng-show="subscription=='Completed'">&#x2713;</span><span ng-show="subscription=='Not Completed'">&#x2717; </span>Paid Member ({{subscription}})</span>
+        <span class="text-muted"><span style="color: green;" ng-show="subscription=='Completed'">&#x2713;</span><span style="color: red;" ng-show="subscription=='Not Completed'">&#x2717; </span> Paid Member ({{subscription}})</span>
       </div>
     </div>
   </div>
@@ -99,6 +99,11 @@
     <p style="float: left;margin: 4px;"><a class="btn btn-default" href="#" role="button" ng-show="showUsersListView" ng-click="showGridView()">Show Grid View</a></p>
   </div>
 
+
+  <div class="col-sm-6" ng-show="currentUser && showUsersGridView && myUsers.length==0">
+    <h3>No Member Found</h3>
+  </div>
+
   <div class="col-sm-6" ng-show="showFriendsGridView">
       <div ng-repeat="friend in myFriends" class="panel panel-info" style="float: left;width: 33.33%;">
         <a href="#" style="float: right;margin-right: 6px;font-size: smaller;color: lightblue;" title="Hide">x</a>
@@ -108,7 +113,7 @@
           {{friend.friendUsername}}
           <br>
           <p style="float: left;margin: 15px 21px;"><a href="#"><i class="glyphicon glyphicon-eye-open" title="View"></i></a></p> 
-          <p style="float: left;margin: 15px 21px;"><a href="#"><i class="glyphicon glyphicon-comment" title="Chat"></i></a></p> 
+          <p style="float: left;margin: 15px 21px;"><a href="#" ng-click="showChatView(friend._id, friend.friendUsername, friend.friendFileId)"><i class="glyphicon glyphicon-comment" title="Chat"></i></a></p> 
           <p style="float: left;margin: 15px 21px;"><a href="#"><i class="glyphicon glyphicon-envelope" title="Email"></i></a></p> 
           <p style="float: left;margin: 15px 21px;"><a href="#"><i class="glyphicon glyphicon-ban-circle" title="Block"></i></a></p> 
         </div>
@@ -128,6 +133,32 @@
         </div>
       </div>
   </div>
+
+
+  <div class="wrapper_chat" ng-show="showUsersChatView">
+    <div class="menu_chat">
+        <p><img alt="" ng-src="/cfs/files/images/{{selectedUserFileId}}" class="avatar avatar-60 photo" height="50" width="39.28">&nbsp;&nbsp;&nbsp;{{selectedUserUsername}}</p>
+        <!-- <p class="logout"><a id="exit" href="#">Exit Chat</a></p> -->
+        <!-- <div style="clear:both"></div> -->
+    </div>
+
+    <div class="chatbox_chat" schroll-bottom="chats">
+        <div class="messages" ng-repeat="chat in chats">
+            <p>
+                <span class="username">{{chat.currentUserName}}:</span>
+                {{chat.message}}
+                <span class="timestamp_chat">&ndash; <span am-time-ago="{{chat.createdAt}}"></span></span>
+            </p>
+        </div>
+    </div>
+     
+    <form autocomplete="off" ng-submit="sendMessage(message)">
+        <input type="text" class="usermsg_chat" size="63" ng-model="message" autocomplete="off" placeholder="Write a message" required autofocus value="none" />
+        <!-- <input name="submitmsg" type="submit"  id="submitmsg" value="Send" /> -->
+        <button style="width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px;">Send</button>
+    </form>
+
+ </div>
 
 
 

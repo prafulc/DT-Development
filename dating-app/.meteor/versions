@@ -74,6 +74,8 @@ modules-runtime@0.6.4
 mongo@1.1.8
 mongo-id@1.0.5
 mongo-livedata@1.0.12
+mquandalle:bower@0.1.11
+mrt:moment@1.7.0
 npm-bcrypt@0.8.6_1
 npm-mongo@1.4.44
 observe-sequence@1.0.12
@@ -97,9 +99,11 @@ srp@1.0.9
 standard-minifier-css@1.0.7
 standard-minifier-js@1.0.7
 templating-tools@1.0.4
+tonekk:angular-moment@1.0.2
 tracker@1.0.14
 ui@1.0.11
 underscore@1.0.9
+urigo:angular@0.5.11
 url@1.0.10
 webapp@1.2.9
 webapp-hashing@1.0.9
