@@ -1,7 +1,7 @@
 # React-Native
 Important points, that should be take care
 - First you have to intall react native in you machine.
-- After creating project, you should install watchman in project root directory.
+- After creating project, you should install watchman in project root directory and install bleachbit from package manager. BleachBit is used to make some free space in kernel.
 - Only check output on Mobile device not emulator, becuase emulator occupy more than 1gb space in ram.
 
 Topics:
