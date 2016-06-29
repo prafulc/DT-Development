@@ -1,4 +1,5 @@
 if(Meteor.isServer){
+	var pageSession = new ReactiveDict();
 	//Items = new Mongo.Collection('items');
 	//Articles = new Mongo.Collection('articles');
 
@@ -33,19 +34,24 @@ if(Meteor.isServer){
 			const gameList = Games.find({}).fetch();
 			//console.log("game list is --->",gameList );
 			if(gameList){
-				code = 200;
-				status = "Success";
-				result = gameList;	
+				var response = {
+						statusCode : 200,
+						body:{
+							status : "Success",
+							data : gameList
+						}
+					};
 			}else{
-				code = 204;
-				status = "Success";
-				result = "No record found..!";
+				var response = {
+						statusCode : 204,
+						body:{
+							status : "Success",
+							data : "No record found..!"
+						}
+					};
 			}
 
-			return {
-				statusCode: code,
-				body: {status: status, data: result }
-			}; 
+   			return response;
 		}
 	});
 
@@ -53,43 +59,133 @@ if(Meteor.isServer){
 	API.addRoute('game/:id', {authRequired: false}, {
 		get: function(){
 			const game = Games.findOne({_id: this.urlParams.id});
-			//console.log("game details are ---> ", game);
 			
-			const response = "";
 			if(game){
-				code = 200;
-				status = "Success";
-				result = game;
+				var response = {
+						statusCode : 200,
+						body:{
+							status : "Success",
+							data : game
+						}
+					};
 			}
 			else{
-				code = 404;
-				status = "Failed";
-				result = "No Record Found..!";
+				var response = {
+						statusCode : 404,
+						body:{
+							status : "Failed",
+							data : "No Record Found..!"
+						}
+					};
 			}
 
-			return {
-	          statusCode: code,
-	          body: { status: status, data: result }
-	        };
+   			return response;
 		},
 
 		delete: function(){
 			roleRequired: ['author', 'admin'];
-	      	
 	        if(Games.remove(this.urlParams.id)) {
-        	  	code = 200;
-        	  	status = "Success";
-        	  	result = "Record deleted successfully..!";
+	        	var response = {
+						statusCode : 200,
+						body:{
+							status : "Success",
+							data : "Record deleted successfully..!"
+						}
+					};
+
 	        }else{
-	        	code = 403;
-        	  	status = "Failed";
-        	  	result = "Forbidden..!";
+	        	var response = {
+	   					statusCode : 405,
+	   					body:{
+	   						status : "Failed",
+	   						data : "Forbidden: Can not delete this record"
+	   					}
+   					};
+
 	        }
 
-	      	return {
-		        statusCode: code,
-		        body: { status: status, data: result }
-		    };
+   			return response;
 		},
+
+		put: function(){
+			//console.log("put: parameters are --->>", this.bodyParams);
+			//console.log("Game id is --->",this.urlParams.id );
+			Games.update(
+				{'_id': this.urlParams.id}, 
+				{
+					$set:{
+						'name': this.bodyParams.name,
+						'description': this.bodyParams.description,			
+						'category': this.bodyParams.category
+					}
+				},
+				function(error){
+					if(error){
+						console.log("Getting error in gameAPI put.", error.message);
+
+						var response = {
+		   					statusCode : 405,
+		   					body:{
+		   						status : "Failed",
+		   						data : error.message
+		   					}
+	   					};
+	   					pageSession.set('finalResponse', response);
+					}else{
+						var response = {
+		   					statusCode : 200,
+		   					body:{
+		   						status : "Success",
+		   						data : "Record updated successfully..!"
+		   					}
+	   					};
+	   					pageSession.set('finalResponse', response);
+					}
+				}
+			);
+   			return pageSession.get('finalResponse');
+		}
 	});
+
+	pageSession.set("testVariable", "working");
+/*	Admin - ac@gmail.com
+	id - Bnm84KKzBHXRJWPng*/
+	/*domain/games-api/v1/addgame*/
+	API.addRoute('addgame', {authRequired:false},{
+		/*post is not working for now;; showing some error related to Meteor.userId*/
+
+		 post: function(){
+
+   			Games.insert({
+   				"name": this.bodyParams.name,
+   				"description": this.bodyParams.description,
+   				"createdAt": this.bodyParams.createAt,
+   				"updatedAt": this.bodyParams.updatedAt,
+   				"category": this.bodyParams.category,
+   				"picture": this.bodyParams.picture,
+   				"owner": this.bodyParams.owner
+   			}, function (error, result){
+   				if(error){
+   					var response = {
+	   					statusCode : 405,
+	   					body:{
+	   						status : "Failed",
+	   						data : error.message
+	   					}
+   					};
+   					pageSession.set('finalResponse', response);
+   				}else{
+   					var response = {
+	   					statusCode : 200,
+	   					body: { Status : "Success", Message:"Record inserted successfully", Data: result }
+   					};
+   					pageSession.set("finalResponse", response);
+   				}
+   			});
+   			return pageSession.get('finalResponse');
+   			
+	    }
+	});
+
+
 }

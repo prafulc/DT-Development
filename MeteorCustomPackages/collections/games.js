@@ -1,24 +1,30 @@
 Games = new Mongo.Collection("games");
 Games.attachSchema(new SimpleSchema({
   
-name: {
+  name: {
     type: String,
+    optional: true,
     max: 60
   },
+
   description: {
-    type: String,
+    type: String,    
+    optional: true,
     autoform: {
       rows: 5
     }
   },
+
   createdAt: {
     type: Date,
+    optional: true,
     autoValue: function() {
       if (this.isInsert) {
         return new Date();
       }
     }
   },
+
   updatedAt: {
     type: Date,
     optional: true,
@@ -30,7 +36,7 @@ name: {
   },
 
   category: {
-    type: String,
+    type: String,  
     optional: true,
     label: "Category",
     autoform: {
@@ -47,6 +53,7 @@ name: {
 
   picture: {
     type: String,
+    optional: true,
     autoform: {
       afFieldInput: {
         type: 'fileUpload',
@@ -56,12 +63,13 @@ name: {
   },
   owner: {
     type: String,
+    optional: true,
     regEx: SimpleSchema.RegEx.Id,
-    autoValue: function() {
+    /*autoValue: function() {
       if (this.isInsert) {
-        return Meteor.userId();
+        return this.userId();
       }
-    },
+    },*/
     autoform: {
       options: function() {
         return _.map(Meteor.users.find().fetch(), function(user) {
