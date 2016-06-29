@@ -19,7 +19,7 @@ Topics:
 	
 	2. External style->
 
-		```javascript
+		```html
 		<Text style={styles.base} />
 		<View style={styles.background} />
 
