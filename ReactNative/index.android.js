@@ -14,7 +14,7 @@ import {
   TouchableOpacity,
   TextInput
 } from 'react-native';
-// import './ResponderEventPlugin.js';
+import Task from './Task.js';
 
 class ReactNative extends Component { 
   getInitialState() { return { myButtonOpacity: 1, } }
@@ -50,13 +50,6 @@ class ReactNative extends Component {
             <View style={[styles.button, {opacity: this.state.myButtonOpacity}]}>
               <Text>Press me-2!</Text>
             </View>
-          </TouchableOpacity>
-        </View>
-        <Text style={[styles.hed1]}>-------- Clear Input --------</Text>
-        <View>
-          <TextInput ref={component => this._textInput = component} style={styles.textInput} />
-          <TouchableOpacity onPress={this.clearText}>
-            <Text>Clear text</Text>
           </TouchableOpacity>
         </View>
       </View> 
