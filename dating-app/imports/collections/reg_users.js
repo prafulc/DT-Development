@@ -3,11 +3,11 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 
 import { check } from 'meteor/check';
- 
+
 if (Meteor.isServer) {
   // This code only runs on the server
-  Meteor.publish('users', function() {
-    return Meteor.users.find();
+  Meteor.publish('userData', function() {
+    return Meteor.users.find({}, {fields:{_id:1, fileId:1, username:1, firstname:1, lastname:1, emails:1, subscribe:1, personal_detail:1, friendsIds:1, blockedIds:1, iAmBlockedBy:1}});
   })
 }
 
@@ -43,6 +43,9 @@ Meteor.methods({
   		subscribe:regCred.subscribe,
 		  personal_detail:personal_detail,
 		  fileId:fileId,
+      friendsIds:[],
+      blockedIds:[],
+      iAmBlockedBy:[],
       createdAt: new Date()
     }
 

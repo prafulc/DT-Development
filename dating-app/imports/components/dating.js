@@ -15,7 +15,11 @@ import { Blocks } from '../collections/blocks.js';
 
 import { Chats } from '../collections/chats.js';
  
-Meteor.subscribe('users');
+// Meteor.subscribe('userData');
+
+Deps.autorun(function(){
+  Meteor.subscribe('userData');
+});
 Meteor.subscribe('images');
 
 export default angular.module('dating', [
@@ -185,6 +189,7 @@ export default angular.module('dating', [
       Data.setCurrentUserId('')
       Data.setCurrentUserFileId('')
       Data.resetTemporarilyHideUsers()
+      Data.resetTemporarilyHideFriends()
       Data.setSelectedUserId('')
       Data.setSelectedUserUsername('')
       Data.setSelectedUserFileId('')
@@ -327,45 +332,69 @@ export default angular.module('dating', [
         }
     }
 
-    
-
-    $scope.getCurrentUserChats = function(selectedUserId, currentUserId){
-        Meteor.subscribe('chats');
-        $scope.chats = Chats.find({"selectedUserId":selectedUserId, "currentUserId":currentUserId}).fetch()
+    $scope.updateMyFriends = function(){
+      Meteor.subscribe('friends');
+      $scope.myFriends = Friends.find({_id:{$nin:Data.getTemporarilyHideFriends()}}).fetch()
     }
 
-    $scope.showChatView = function(selectedUserId, selectedUserUsername, selectedUserFileId){
-        Data.setSelectedUserId(selectedUserId)
-        Data.setSelectedUserUsername(selectedUserUsername)
-        Data.setSelectedUserFileId(selectedUserFileId)
-        $scope.getCurrentUserChats(selectedUserId, currentUserId)
-        $scope.selectedUserFileId = selectedUserFileId
-        $scope.selectedUserUsername = selectedUserUsername
-        $scope.showUsersGridView = false
-        $scope.showUsersListView = false
-        $scope.showProgressBar=false
-        $scope.showFriendsGridView=false
-        $scope.showBlockedGridView=false
-        $scope.showUsersChatView=true
+    $scope.hideFriendTemporarily = function(friendId){
+        Data.setTemporarilyHideFriends(friendId)
+        $scope.updateMyFriends()
         if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
             $scope.$apply();
         }
     }
 
+    $scope.showChatView = function(selectedId, selectedUserId, selectedUserUsername, selectedUserFileId){
+        Meteor.subscribe('chats');
+        Data.setSelectedUserId(selectedUserId)
+        Data.setSelectedUserUsername(selectedUserUsername)
+        Data.setSelectedUserFileId(selectedUserFileId)
+        Meteor.call('getCurrentUserPreviousChats', selectedUserId, currentUserId, function(err, res){
+            if(!err){
+              $scope.hideFriendTemporarily(selectedId)
+              $scope.chats = res;
+              $scope.selectedUserFileId = selectedUserFileId
+              $scope.selectedUserUsername = selectedUserUsername
+              $scope.showUsersGridView = false
+              $scope.showUsersListView = false
+              $scope.showProgressBar=false
+              $scope.showFriendsGridView=false
+              $scope.showBlockedGridView=false
+              $scope.showUsersChatView=true
+              if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                  $scope.$apply();
+              }
+            }
+        })
+    }
+
     $scope.sendMessage = function(message){
+        Meteor.subscribe('chats');
         var selectedUserId = Data.getSelectedUserId()
         var selectedUserUsername = Data.getSelectedUserUsername()
         var selectedUserFileId = Data.getSelectedUserFileId()
         var currentUserName = Data.getCurrentUserUsername()
-        Meteor.call('addChat', selectedUserId, currentUserId, selectedUserUsername, selectedUserFileId, message, currentUserName, function(){
+        var currentUserFileId = Data.getCurrentUserFileId()
+        Meteor.call('addChat', selectedUserId, currentUserId, selectedUserUsername, selectedUserFileId, message, currentUserName, currentUserFileId, function(){
           $scope.message = '';
-          $scope.getCurrentUserChats(selectedUserId, currentUserId)
-          if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
-            $scope.$apply();
-          }
+          Meteor.call('getCurrentUserPreviousChats', selectedUserId, currentUserId, function(err, res){
+              if(!err){
+                $scope.chats = res;
+                if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                    $scope.$apply();
+                }
+              }
+          })
         })
-        
+    }
 
+    $scope.getChatingClass = function(chatCurrentUserId){
+      if(chatCurrentUserId==Data.getCurrentUserId()){
+          return "chat_message_wrapper chat_message_right"
+      }else{
+        return "chat_message_wrapper"
+      }
     }
 
   }])
@@ -392,6 +421,7 @@ export default angular.module('dating', [
         fileId:'',
         username:'',
         hideUsers:[],
+        hideFriends:[],
         selectedUserId:'',
         selectedUserName:'',
         selectedFileId:''
@@ -424,6 +454,20 @@ export default angular.module('dating', [
         resetTemporarilyHideUsers : function (){
             data.hideUsers = [];
         },
+
+
+        getTemporarilyHideFriends : function (){
+            return data.hideFriends;
+        },
+        setTemporarilyHideFriends : function (friendId){
+            data.hideFriends.push(friendId)
+        },
+        resetTemporarilyHideFriends : function (){
+            data.hideFriends = [];
+        },
+
+
+
         setSelectedUserId:function(userId){
             data.selectedUserId = userId;
         },

@@ -11,7 +11,7 @@
             </ul>
          </li>
       </ul> 
-      <img alt="" ng-src="{{userimg}}" class="avatar avatar-60 photo navbar-right" height="50" width="39.28">
+      <img alt="" ng-src="{{userimg}}" height="50" width="39.28" class="md-user-image navbar-right">
     </div>
 </nav>
 
@@ -113,7 +113,7 @@
           {{friend.friendUsername}}
           <br>
           <p style="float: left;margin: 15px 21px;"><a href="#"><i class="glyphicon glyphicon-eye-open" title="View"></i></a></p> 
-          <p style="float: left;margin: 15px 21px;"><a href="#" ng-click="showChatView(friend._id, friend.friendUsername, friend.friendFileId)"><i class="glyphicon glyphicon-comment" title="Chat"></i></a></p> 
+          <p style="float: left;margin: 15px 21px;"><a href="#" ng-click="showChatView(friend._id, friend.friendId, friend.friendUsername, friend.friendFileId)"><i class="glyphicon glyphicon-comment" title="Chat"></i></a></p> 
           <p style="float: left;margin: 15px 21px;"><a href="#"><i class="glyphicon glyphicon-envelope" title="Email"></i></a></p> 
           <p style="float: left;margin: 15px 21px;"><a href="#"><i class="glyphicon glyphicon-ban-circle" title="Block"></i></a></p> 
         </div>
@@ -135,29 +135,44 @@
   </div>
 
 
-  <div class="wrapper_chat" ng-show="showUsersChatView">
-    <div class="menu_chat">
-        <p><img alt="" ng-src="/cfs/files/images/{{selectedUserFileId}}" class="avatar avatar-60 photo" height="50" width="39.28">&nbsp;&nbsp;&nbsp;{{selectedUserUsername}}</p>
-        <!-- <p class="logout"><a id="exit" href="#">Exit Chat</a></p> -->
-        <!-- <div style="clear:both"></div> -->
-    </div>
+<div class="wrapper_chat" ng-show="showUsersChatView">
+  <div class="menu_chat">
+      <p><img alt="" ng-src="/cfs/files/images/{{selectedUserFileId}}" class="md-user-image" height="50" width="39.28">&nbsp;&nbsp;&nbsp;{{selectedUserUsername}}</p>
+  </div>
+ 
+  <div id="chat" class="chat_box_wrapper chat_box_small chat_box_active" style="opacity: 1; display: block; transform: translateX(0px);" schroll-bottom="chats">
+      <div class="chat_box touchscroll chat_box_colors_a" ng-repeat="chat in chats">
+          <div ng-class="getChatingClass(chat.currentUserId)">
+              <div class="chat_user_avatar">
+                <img alt="" ng-src="/cfs/files/images/{{chat.currentUserFileId}}" class="md-user-image">
+              </div>
+              <ul class="chat_message">
+                  <li>
+                      <p> {{chat.message}} <span class="chat_message_time">{{chat.createdAt}}</span> </p>
+                  </li>
+              </ul>
+          </div>
+      </div>
+  </div>
 
-    <div class="chatbox_chat" schroll-bottom="chats">
-        <div class="messages" ng-repeat="chat in chats">
-            <p>
-                <span class="username">{{chat.currentUserName}}:</span>
-                {{chat.message}}
-                <span class="timestamp_chat">&ndash; <span am-time-ago="{{chat.createdAt}}"></span></span>
-            </p>
+
+  <form autocomplete="off" ng-submit="sendMessage(message)">
+      <input type="text" class="usermsg_chat" size="63" ng-model="message" autocomplete="off" placeholder="Write a message" required autofocus value="none" />
+      <button style="width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px;">Send</button>
+  </form>
+</div>
+
+
+
+ <div class="wrapper_friends_list" ng-show="showUsersChatView">
+    <div class="list-group">
+        <div ng-repeat="friend in myFriends" class="friends_chat" style="background-color: #d9edf7">
+            <a href="#" ng-click="showChatView(friend._id, friend.friendId, friend.friendUsername, friend.friendFileId)" >
+              <img alt="" ng-src="/cfs/files/images/{{friend.friendFileId}}" class="avatar avatar-60 photo" height="50" width="39.28">
+              {{friend.friendUsername}}
+            </a>
         </div>
     </div>
-     
-    <form autocomplete="off" ng-submit="sendMessage(message)">
-        <input type="text" class="usermsg_chat" size="63" ng-model="message" autocomplete="off" placeholder="Write a message" required autofocus value="none" />
-        <!-- <input name="submitmsg" type="submit"  id="submitmsg" value="Send" /> -->
-        <button style="width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px;">Send</button>
-    </form>
-
  </div>
 
 

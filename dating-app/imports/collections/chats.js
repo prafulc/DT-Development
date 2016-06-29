@@ -14,7 +14,7 @@ if (Meteor.isServer) {
 }
 
 Meteor.methods({
-  'addChat' (selectedUserId, currentUserId, selectedUserUsername,selectedUserFileId, message, currentUserName) {
+  'addChat' (selectedUserId, currentUserId, selectedUserUsername,selectedUserFileId, message, currentUserName, currentUserFileId) {
 	Chats.insert({
       selectedUserId,
       currentUserId, 
@@ -22,9 +22,14 @@ Meteor.methods({
       selectedUserFileId,
       message,
       currentUserName,
+      currentUserFileId,
       createdAt: new Date()
     });
    },
+
+   'getCurrentUserPreviousChats' (selectedUserId, currentUserId){
+      return Chats.find({"selectedUserId":{$in:[selectedUserId, currentUserId]}, "currentUserId":{$in:[selectedUserId, currentUserId]}}).fetch()
+     }
   
  
 });

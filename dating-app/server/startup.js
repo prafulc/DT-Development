@@ -34,6 +34,8 @@ Accounts.onCreateUser(function(options, user) {
     user['createdAt'] = options.createdAt
     user['profile'] = options.profile
     user['friendsIds'] = options.friendsIds
+    user['blockedIds'] = options.blockedIds
+    user['iAmBlockedBy'] = options.iAmBlockedBy
     return user
 })
 
