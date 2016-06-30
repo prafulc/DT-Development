@@ -38,6 +38,13 @@ export default angular.module('dating', [
 	      controller:'homeCtrl'
 	    })
 
+      .state('signup', {
+        url: '/signup',
+        templateUrl: 'client/signup.html',
+        controller:'signupCtrl'
+      })
+
+
     	.state('login', {
 		    url: '/login',
 		    templateUrl: 'client/login.html',
@@ -85,8 +92,16 @@ export default angular.module('dating', [
    $scope.login = function(cred){
       UserProfile.isUserExists($scope, $state, cred, Data)
    }
+}])   
 
-   $scope.register = function(regCred){
+.controller('loginCtrl', ['$scope', '$state', 'Data', 'UserProfile', function($scope, $state, Data, UserProfile) {
+    $scope.login = function(cred){
+      UserProfile.isUserExists($scope, $state, cred, Data)
+    }
+  }])
+
+.controller('signupCtrl', ['$scope', '$state', 'Data', 'UserProfile', function($scope, $state, Data, UserProfile) {
+    $scope.register = function(regCred){
       var file = $scope.regCred.file;
       var regCred1 = {};
       for (var key in $scope.regCred) {
@@ -137,12 +152,6 @@ export default angular.module('dating', [
       }
       
    }
-}])
-
-.controller('loginCtrl', ['$scope', '$state', 'Data', 'UserProfile', function($scope, $state, Data, UserProfile) {
-    $scope.login = function(cred){
-      UserProfile.isUserExists($scope, $state, cred, Data)
-    }
   }])
 
 .controller('forgotpasswordCtrl', ['$scope', '$stateParams', '$state', function($scope, $stateParams, $state) {
@@ -494,8 +503,12 @@ export default angular.module('dating', [
     return {
       isUserExists : function($scope, $state, cred, Data){
         var userInfo = Meteor.users.find({"username":cred.email}, {fields:{_id:1, fileId:1, username:1}}).fetch()
-        $scope.cred.email = '';
-        $scope.cred.password = '';
+        if($scope.cred && $scope.cred.email){
+          $scope.cred.email = '';  
+        }
+        if($scope.cred && $scope.cred.password){
+          $scope.cred.password = '';  
+        }
         if(userInfo && userInfo.length>0){
           // Meteor.loginWithPassword(cred.email, cred.password);
           Data.setCurrentUserUsername(userInfo[0].username)

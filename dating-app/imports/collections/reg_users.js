@@ -30,6 +30,7 @@ Meteor.methods({
   		profile:{
   				firstname:regCred.firstname,
 		      lastname:regCred.lastname,
+          name:(regCred.firstname + " " + regCred.lastname),
 		      mobile:regCred.mobile,      
 		      age:regCred.age,
 		      height:regCred.height,

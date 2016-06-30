@@ -1,0 +1,138 @@
+<div class="container">
+    
+    <header>
+        <h1 style="text-align: center;color: rgb(74, 179, 198);">Join the best dating site on Earth.</h1>
+    </header>
+    <section>               
+        <div id="container_demo" >
+           
+            <!-- <a class="hiddenanchor" id="toregister"></a> -->
+            <!-- <a class="hiddenanchor" id="tologin"></a> -->
+
+            <div id="wrapper">
+                <!-- <div id="login" class="animate form">
+                    <form autocomplete="off" ng-submit="login(cred)"> 
+                        <h1>Log in</h1> 
+                        <p> 
+                            <label for="username" class="uname" >Your email or username</label>
+                            <input ng-model="cred.email" id="username" name="username" required="required" type="text" placeholder="myusername or mymail@mail.com"/>
+                        </p>
+                        <p> 
+                            <label for="password" class="youpasswd" >Your password</label>
+                            <input ng-model="cred.password" id="password" name="password" required="required" type="password" placeholder="eg. X8df!90EO" /> 
+                        </p>
+                       <a href="/forgotpassword">Forgot Password?</a><br>
+                        <p class="login button"> 
+                            <input type="submit" value="Login" /> 
+                        </p>
+                        <p class="change_link">
+                            Not a member yet ?
+                            <a href="#toregister" class="to_register">Join us</a>
+                        </p>
+                    </form>
+                </div> -->
+
+
+                <div  class="animate form">
+                    <form autocomplete="off" ng-submit="register(regCred)"> 
+                        <h1> Registration </h1> 
+
+                        <p>
+                            <label for="firstname">First name</label>
+                            <input ng-model="regCred.firstname" type="text" id="firstname" placeholder="First name" required autofocus autocomplete="off">
+                        </p>
+
+                        <p>
+                            <label for="lastname">Last name</label>
+                            <input ng-model="regCred.lastname" type="text" id="lastname" class="form-control" placeholder="Last name" autocomplete="off">
+                            
+                        </p>
+
+                        <p>
+                            <label for="mobile">Mobile</label>
+                            <input ng-model="regCred.mobile" type="text" id="mobile" class="form-control" placeholder="Mobile" required autocomplete="off">
+                            
+                        </p>
+
+                        <p>                            
+                            <label for="email">Email</label>
+                            <input ng-model="regCred.email" type="email" id="email" class="form-control" placeholder="Email" required autocomplete="off">
+                            
+                        </p>
+
+                        <p>
+                            <label for="inputPassword">Password</label>
+                            <input ng-model="regCred.password" type="password" id="inputPassword" class="form-control" placeholder="Password" required autocomplete="off"> 
+                            
+                        </p>
+
+                        <p>
+                            <label for="age">Age</label>
+                            <input ng-model="regCred.age" type="text" id="age" class="form-control" placeholder="age" autocomplete="off"><br>
+                            
+                        </p>
+
+                        <p>
+                            <label for="height">Height</label>
+                            <input ng-model="regCred.height" type="text" id="height" class="form-control" placeholder="height" autocomplete="off">
+                            
+                        </p>
+
+                        <p>
+                            <label for="body_type">Body Type</label>
+                            <input ng-model="regCred.body_type" type="text" id="body_type" class="form-control" placeholder="Body Type" autocomplete="off">
+                            
+                        </p>
+
+                        <p>
+                            <label for="weight">Weight</label>
+                            <input ng-model="regCred.weight" type="text" id="weight" class="form-control" placeholder="weight" autocomplete="off">                          
+                        </p>
+
+                        <p>    
+                          <label for="religion">Religion</label>
+                            <input ng-model="regCred.religion" type="text" id="religion" class="form-control" placeholder="religion" autocomplete="off">  
+                        </p>
+
+                        <p>
+                         <label for="interest">Interest</label>
+                        <input ng-model="regCred.interest" type="text" id="interest" class="form-control" placeholder="interest" autocomplete="off">   
+                            
+                        </p>
+
+                        <p>
+                            <label for="hobbies">Hobbies</label>
+                            <input ng-model="regCred.hobbies" type="text" id="hobbies" class="form-control" placeholder="hobbies" autocomplete="off"><br>
+
+                        </p>
+
+                         <p>
+                            <label>Upload Pic</label>
+                            <input type="file" file-model="regCred.file" autocomplete="off">
+                        </p>
+
+                        <div class="gender">
+                            <div style="float: left;">
+                                <input ng-model="regCred.gender" type="radio" value="male" id="male" checked/>
+                                <label for="male" class="radio" style="font-size: 20px;">Male</label>
+                            </div>
+                            <div style="float: left;">
+                                <input ng-model="regCred.gender" type="radio" value="female" id="female" />
+                                <label for="female" class="radio" style="font-size: 20px;">Female</label>
+                            </div>
+                        </div>
+                       
+                        <p class="signin button"> 
+                            <input type="submit" value="Register"/> 
+                        </p>
+                        <p class="change_link">  
+                            Already a member ?
+                            <a href="/login" class="to_register"> Go and log in </a>
+                        </p>
+                    </form>
+                </div>
+                
+            </div>
+        </div>  
+    </section>
+</div>
