@@ -164,13 +164,21 @@
 
 
 
- <div class="wrapper_friends_list" ng-show="showUsersChatView">
+ <div class="wrapper_friends_list" ng-show="showUsersChatView && myFriends.length>0">
     <div class="list-group">
         <div ng-repeat="friend in myFriends" class="friends_chat" style="background-color: #d9edf7">
             <a href="#" ng-click="showChatView(friend._id, friend.friendId, friend.friendUsername, friend.friendFileId)" >
               <img alt="" ng-src="/cfs/files/images/{{friend.friendFileId}}" class="avatar avatar-60 photo" height="50" width="39.28">
               {{friend.friendUsername}}
             </a>
+        </div>
+    </div>
+ </div>
+
+ <div class="wrapper_friends_list" ng-show="showUsersChatView && myFriends.length==0">
+    <div class="list-group">
+        <div class="friends_chat" style="background-color: #d9edf7">
+             <a href="#" ng-click="search()"><h3 class="panel-title">No Friends Found, <br> Click Here to find Friends</h3></a>
         </div>
     </div>
  </div>

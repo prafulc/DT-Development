@@ -249,7 +249,7 @@ a:focus {
 }
 .chat_box_wrapper.chat_box_small.chat_box_active {
     height: 342px;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 aside {
      background-attachment: fixed;

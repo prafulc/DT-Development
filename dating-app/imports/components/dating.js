@@ -334,11 +334,11 @@ export default angular.module('dating', [
 
     $scope.updateMyFriends = function(){
       Meteor.subscribe('friends');
-      $scope.myFriends = Friends.find({_id:{$nin:Data.getTemporarilyHideFriends()}}).fetch()
+      $scope.myFriends = Friends.find({"userId":currentUserId, friendId:{$nin:Data.getTemporarilyHideFriends()}}).fetch()
     }
 
-    $scope.hideFriendTemporarily = function(friendId){
-        Data.setTemporarilyHideFriends(friendId)
+    $scope.hideFriendTemporarily = function(selectedUserId){
+        Data.setTemporarilyHideFriends(selectedUserId)
         $scope.updateMyFriends()
         if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
             $scope.$apply();
@@ -350,9 +350,10 @@ export default angular.module('dating', [
         Data.setSelectedUserId(selectedUserId)
         Data.setSelectedUserUsername(selectedUserUsername)
         Data.setSelectedUserFileId(selectedUserFileId)
+        Data.resetTemporarilyHideFriends();
         Meteor.call('getCurrentUserPreviousChats', selectedUserId, currentUserId, function(err, res){
             if(!err){
-              $scope.hideFriendTemporarily(selectedId)
+              $scope.hideFriendTemporarily(selectedUserId)
               $scope.chats = res;
               $scope.selectedUserFileId = selectedUserFileId
               $scope.selectedUserUsername = selectedUserUsername
@@ -459,8 +460,8 @@ export default angular.module('dating', [
         getTemporarilyHideFriends : function (){
             return data.hideFriends;
         },
-        setTemporarilyHideFriends : function (friendId){
-            data.hideFriends.push(friendId)
+        setTemporarilyHideFriends : function (selectedUserId){
+            data.hideFriends.push(selectedUserId)
         },
         resetTemporarilyHideFriends : function (){
             data.hideFriends = [];
