@@ -27,6 +27,18 @@ angular.module('ewalls', ['ionic'])
       controller: 'AppCtrl'
     })
 
+    .state('shop', {
+      url: '/shop',
+      templateUrl: 'templates/shop.html'
+      // views: {
+      //   'menuContent': {
+      //     templateUrl: 'templates/shop.html',
+      //     controller: 'AppCtrl'
+      //   }
+      // }
+      // abstract: true,
+    })
+
     .state('app', {
       url: '/app',
       abstract: true,
@@ -77,8 +89,6 @@ angular.module('ewalls', ['ionic'])
 
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
-  console.log("enter>>>>>>>>>>>>>>>>");
-
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),

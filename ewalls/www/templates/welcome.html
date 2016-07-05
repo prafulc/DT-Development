@@ -1,66 +1,29 @@
-
-
-
-
-
 <ion-pane>
-        
+  <ion-content>
+    <div class="text-align-center">
+      <br><br><br>
+      <h3>Welcome to</h3>
+      <h1 class="title">
+        <img src="img/ewalls-header.png" alt="">
+      </h1>
+      
+      <div class="font-size-smaller">
+          <p>Because sometimes a blank wall just doesn't</p>
+          <p>look right....</p>
+          <br>
+          <p>To save your favourites and sync your details</p>
+          <p>across all your devices</p>  
+      </div>
+      
+      <button class="button button-balanced width-forty-five" ng-click="login()">
+        Sign In
+      </button>
 
-
-
-        <!-- <ion-header-bar>
-          <div class="buttons">
-            <button class="button font-size-twenty-three" ng-click="doSomething()">
-                <i class="ion-navicon-round"></i>
-            </button>
-          </div>
-          
-          <h1 class="title text-align-center">
-            <img src="img/ewalls.png" alt="">
-          </h1>
-          <div class="buttons">
-            <button class="button font-size-twenty-three" ng-click="doSomething()">
-                  <i class="ion-android-search"></i>
-            </button>
-            <button class="button font-size-twenty-three" ng-click="doSomething()">
-                  <i class="ion-ios-cart"></i>
-            </button>
-          </div>
-        </ion-header-bar> -->
-
-
-        <ion-content>
-          <div class="text-align-center">
-              
-
-              <br><br><br>
-              <h2>Welcome to</h2>
-              <h1 class="title">
-                <img src="img/ewalls.png" alt="">
-              </h1>
-
-
-              <div class="font-size-smaller">
-                  <p>Because sometimes a blank wall just doesn't</p>
-                  <p>look right....</p>
-                  
-                  <br>
-
-                  <p>To save your favourites and sync your details</p>
-                  <p>across all your devices</p>  
-              </div>
-              
-
-              <button class="button button-balanced width-forty-five" ng-click="login()">
-                Sign In
-              </button>
-                <p class="font-size-smaller">New to E-walls? <a href="" class="color-black">Join now ></a></p>
-
-                <br><br>
-
-
-                <p class="font-size-smaller"><a href="" class="color-black">Shop now ></a></p>
-              
-          </div>
-        </ion-content>
-    </ion-pane>
+      <div class="font-size-smaller">
+        <p>New to E-walls? <a href="" class="color-black">Join now</a> ></p>
+        <br><br>
+        <p><a ui-sref="shop" class="color-black">Shop now</a> ></p>  
+      </div>     
+    </div>
+  </ion-content>
+</ion-pane>
