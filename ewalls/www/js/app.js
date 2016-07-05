@@ -1,5 +1,5 @@
 
-angular.module('ewalls', ['ionic'])
+angular.module('ewalls', ['ionic', 'ngResource'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -88,7 +88,7 @@ angular.module('ewalls', ['ionic'])
 
 
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, DataService, $http) {
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
@@ -120,6 +120,31 @@ angular.module('ewalls', ['ionic'])
   $scope.doLogin = function() {
     console.log('Doing login', $scope.loginData);
 
+
+     // $http.get('http://ewallsnew.mediadevstaging.com/api/get_recent_posts/').then(function(resp){
+     //   console.log('Success', resp); 
+     // }, function(err){
+     //   console.error('ERR', err);
+     // })
+
+
+     // var url = 'http://ewallsnew.mediadevstaging.com/?json=1'
+     //  $http({
+     //      method: 'JSONP',
+     //      url: url
+     //  }).then(function(resp){
+     //   console.log('Success', resp); 
+     // }, function(err){
+     //   console.error('ERR', err);
+     // })
+
+
+    var promise = DataService.getAll().$promise;
+      promise.then(function(_response) {
+        console.debug(" The data " + JSON.stringify(_response));
+        // $scope.items = _response.hits;
+      });
+
     // Simulate a login delay. Remove this and replace with your login
     // code if using a login system
     $timeout(function() {
@@ -140,4 +165,33 @@ angular.module('ewalls', ['ionic'])
 })
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {
-});
+})
+
+
+
+.factory('DataService', function( $resource){
+  var url = 'http://ewallsnew.mediadevstaging.com/api/get_recent_posts/'
+  var aSearchObject = $resource(url,{},{
+    getAll : {
+      method : 'JSONP',
+    
+      params : {
+        // results  : ':results'
+      }
+    }
+  });
+  return {
+    
+    getAll : function() {
+
+      console.log("aSearchObject...........", JSON.stringify(aSearchObject.getAll()));
+      // var defaultFields = 'brand_id,item_name,item_id,brand_name,nf_calories,nf_total_fat';
+
+      // if (!_params.fields) {
+      //   _params.fields = defaultFields;
+      // }
+      return aSearchObject.getAll();             
+    }
+  }
+
+})
