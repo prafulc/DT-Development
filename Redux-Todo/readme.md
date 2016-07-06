@@ -2,7 +2,9 @@
 	Redux is a predictable state container for JavaScript apps.
 	(If you’re looking for a WordPress framework, check out Redux Framework.)
 
-	It helps you write applications that behave consistently, run in different environments (client, server, and native), and are easy to test. On top of that, it provides a great developer experience, such as live code editing combined with a time traveling debugger.
+	It helps you write applications that behave consistently, run in different environments (client, server, and native),
+	and are easy to test. On top of that, it provides a great developer experience, such as live code editing combined
+	with a time traveling debugger.
 
 
 Important points, that should be take care
@@ -84,4 +86,10 @@ Important points, that should be take care
 		import { combineReducers, createStore } from 'redux'
 		let reducer = combineReducers({ visibilityFilter, todos })
 		let store = createStore(reducer)
+		```
+
+
+- for using react, you must install ->
+		```javascript
+		npm install --save react-redux
 		```
