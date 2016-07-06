@@ -6,7 +6,14 @@ It helps you write applications that behave consistently, run in different envir
 
 
 Important points, that should be take care
-- You have to install redex in you machine and also install its supporting packages.
+- You have to install redex in you machine and also install its complementary packages if needed.
+
+	```javascript
+	npm install --save redux
+	pm install --save react-redux //complementary packages
+	npm install --save-dev redux-devtools //complementary packages
+	```
+
 - It has three principles:- 
 	1. Single source of truth.	
 
