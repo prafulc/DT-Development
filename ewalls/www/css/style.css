@@ -10,7 +10,7 @@
 
 
 .color-black {
-	color: black;\
+	color: black !important;
 }
 
 .width-forty-five {

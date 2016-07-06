@@ -22,128 +22,66 @@ angular.module('ewalls', ['ionic', 'ngResource'])
 
     .state('welcome', {
       url: '/welcome',
-      // abstract: true,
       templateUrl: 'templates/welcome.html',
       controller: 'AppCtrl'
     })
 
+    // .state('app', {
+    //   url: '/app',
+    //   // abstract: true,
+    //   templateUrl: 'templates/menu.html',
+    //   controller: 'AppCtrl'
+    // })
+
     .state('shop', {
       url: '/shop',
-      templateUrl: 'templates/shop.html'
-      // views: {
-      //   'menuContent': {
-      //     templateUrl: 'templates/shop.html',
-      //     controller: 'AppCtrl'
-      //   }
-      // }
-      // abstract: true,
+      templateUrl: 'templates/shop.html',
+      controller: 'shopCtrl'
     })
 
-    .state('app', {
-      url: '/app',
-      abstract: true,
-      templateUrl: 'templates/menu.html',
-      controller: 'AppCtrl'
-    })
-
-    .state('app.search', {
-      url: '/search',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/search.html'
-        }
-      }
-    })
-
-    .state('app.browse', {
-      url: '/browse',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/browse.html'
-        }
-      }
-    })
-    .state('app.playlists', {
-      url: '/playlists',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/playlists.html',
-          controller: 'PlaylistsCtrl'
-        }
-      }
-    })
-
-    .state('app.single', {
-      url: '/playlists/:playlistId',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/playlist.html',
-          controller: 'PlaylistCtrl'
-        }
-      }
-    })
-  // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/welcome');
 })
 
 
-
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, DataService, $http) {
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
-
-  // Form data for the login modal
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, DataService, $http, WpJson, JsonEquals) {
   $scope.loginData = {};
 
-  // Create the login modal that we will use later
   $ionicModal.fromTemplateUrl('templates/login.html', {
     scope: $scope
   }).then(function(modal) {
     $scope.modal = modal;
   });
 
-  // Triggered in the login modal to close it
   $scope.closeLogin = function() {
     $scope.modal.hide();
   };
 
-  // Open the login modal
   $scope.login = function() {
     $scope.modal.show();
   };
 
-  // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
     console.log('Doing login', $scope.loginData);
 
+     // var queryData = DataService.get({route: 'get_recent_posts'}).$promise;         //-----ok         //XMLHttpRequest
+     //   queryData.then(function(_response) {
+     //    console.debug(" The data......... " + JSON.stringify(_response));
+     //    // $scope.items = _response.hits;
+     //  });
 
-     // $http.get('http://ewallsnew.mediadevstaging.com/api/get_recent_posts/').then(function(resp){
-     //   console.log('Success', resp); 
-     // }, function(err){
-     //   console.error('ERR', err);
-     // })
-
-
-     // var url = 'http://ewallsnew.mediadevstaging.com/?json=1'
-     //  $http({
-     //      method: 'JSONP',
-     //      url: url
-     //  }).then(function(resp){
-     //   console.log('Success', resp); 
-     // }, function(err){
-     //   console.error('ERR', err);
-     // })
+      // var queryData = WpJson.get({route: 'wp-api-menus', version:'v2'}).$promise;            //------ok        //Mime type -- application/json
+      //  queryData.then(function(_response) {
+      //   console.debug(" The data menus>>>> " + JSON.stringify(_response));
+      //   // $scope.items = _response.hits;
+      // });
 
 
-    var promise = DataService.getAll().$promise;
-      promise.then(function(_response) {
-        console.debug(" The data " + JSON.stringify(_response));
-        // $scope.items = _response.hits;
-      });
+      //  var queryData = JsonEquals.get({route:'', json:'get_page_index'}).$promise;         //-----ok         //XMLHttpRequest
+      //  queryData.then(function(_response) {
+      //   console.debug(" The data...new...... " + JSON.stringify(_response));
+      //   // $scope.items = _response.hits;
+      // });
+
 
     // Simulate a login delay. Remove this and replace with your login
     // code if using a login system
@@ -153,45 +91,66 @@ angular.module('ewalls', ['ionic', 'ngResource'])
   };
 })
 
-.controller('PlaylistsCtrl', function($scope) {
-  $scope.playlists = [
-    { title: 'Reggae', id: 1 },
-    { title: 'Chill', id: 2 },
-    { title: 'Dubstep', id: 3 },
-    { title: 'Indie', id: 4 },
-    { title: 'Rap', id: 5 },
-    { title: 'Cowbell', id: 6 }
-  ];
+.controller('shopCtrl', function($scope, $ionicModal, $timeout, DataService, $http, WpJson, JsonEquals) {
+    $scope.getMenusInfo = function(){
+      var queryData = WpJson.get({route: 'wp-api-menus', version:'v2', view:'menus', id:17}).$promise;            
+      queryData.then(function(_response) {
+        $scope.menuItems = _response.items;
+      });
+    }
+  })
+
+.factory('DataService', function($resource){              //XMLHttpRequest
+    return $resource('http://ewallsnew.mediadevstaging.com/api/:route',{ callback: "JSON_CALLBACK", format:'jsonp' }, 
+        { 
+          'get': {
+            method:'JSONP', 
+            params: { 
+              route: "@route"
+            }
+          },
+          'save':   {method:'POST'},
+          'query':  {method:'GET', isArray:true},
+          'remove': {method:'DELETE'},
+          'delete': {method:'DELETE'} 
+        }
+      );
 })
 
-.controller('PlaylistCtrl', function($scope, $stateParams) {
+
+.factory('WpJson', function($resource){                        //Mime type -- application/json
+    return $resource('http://ewallsnew.mediadevstaging.com/wp-json/:route/:version/:view/:id',{}, 
+        { 
+          'get': {
+            method:'GET', 
+            params: { 
+              route: "@route",
+              version: "@version",
+              view: "@view",
+              id: "@id"
+            }
+          },
+          'save':   {method:'POST'},
+          'query':  {method:'GET', isArray:true},
+          'remove': {method:'DELETE'},
+          'delete': {method:'DELETE'} 
+        }
+      );
 })
 
-
-
-.factory('DataService', function( $resource){
-  var url = 'http://ewallsnew.mediadevstaging.com/api/get_recent_posts/'
-  var aSearchObject = $resource(url,{},{
-    getAll : {
-      method : 'JSONP',
-    
-      params : {
-        // results  : ':results'
-      }
-    }
-  });
-  return {
-    
-    getAll : function() {
-
-      console.log("aSearchObject...........", JSON.stringify(aSearchObject.getAll()));
-      // var defaultFields = 'brand_id,item_name,item_id,brand_name,nf_calories,nf_total_fat';
-
-      // if (!_params.fields) {
-      //   _params.fields = defaultFields;
-      // }
-      return aSearchObject.getAll();             
-    }
-  }
-
+.factory('JsonEquals', function($resource){              //XMLHttpRequest
+    return $resource('http://ewallsnew.mediadevstaging.com/:route',{ callback: "JSON_CALLBACK", format:'jsonp' }, 
+        { 
+          'get': {
+            method:'JSONP', 
+            params: { 
+              route: "@route"
+            }
+          },
+          'save':   {method:'POST'},
+          'query':  {method:'GET', isArray:true},
+          'remove': {method:'DELETE'},
+          'delete': {method:'DELETE'} 
+        }
+      );
 })
