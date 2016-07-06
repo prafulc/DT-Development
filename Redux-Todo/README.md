@@ -90,6 +90,5 @@ Important points, that should be take care
 
 - for using react, you must install ->
 
-		```javascript
 		npm install --save react-redux
-		```
+		
