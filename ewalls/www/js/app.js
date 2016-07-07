@@ -39,11 +39,18 @@ angular.module('ewalls', ['ionic', 'ngResource'])
       controller: 'shopCtrl'
     })
 
+
+    .state('user', {
+      url: '/user',
+      templateUrl: 'templates/user.html',
+      controller: 'userCtrl'
+    })
+
   $urlRouterProvider.otherwise('/welcome');
 })
 
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, DataService, $http, WpJson, JsonEquals) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, DataService, $http, WpJson, JsonEquals, $state, Data) {
   $scope.loginData = {};
 
   $ionicModal.fromTemplateUrl('templates/login.html', {
@@ -62,12 +69,26 @@ angular.module('ewalls', ['ionic', 'ngResource'])
 
   $scope.doLogin = function() {
     console.log('Doing login', $scope.loginData);
+    // http://jsonplaceholder.typicode.com/users/1?email=saimon@devdactic.com&name=Saimon
+    // http://ewallsnew.mediadevstaging.com/api/get_nonce/?controller=user&method=generate_auth_cookie
 
-     // var queryData = DataService.get({route: 'get_recent_posts'}).$promise;         //-----ok         //XMLHttpRequest
-     //   queryData.then(function(_response) {
-     //    console.debug(" The data......... " + JSON.stringify(_response));
-     //    // $scope.items = _response.hits;
-     //  });
+   
+     DataService.get({route: 'get_nonce'}, {controller:'user', method:'generate_auth_cookie'}).$promise.then(function(nonceInfo) {
+      DataService.get({controllerName:'user', route: 'generate_auth_cookie'}, {username:$scope.loginData.username, password:$scope.loginData.password, insecure:'cool'}).$promise.then(function(userInfo) {
+        if(userInfo && userInfo.status=='ok'){
+            Data.setCurrentUserInfo(userInfo)
+            $state.go('user')
+        }else{
+            $state.go('welcome')
+        }
+      })  
+    });
+
+    // var queryData = DataService.get({route: 'get_recent_posts'}).$promise;         //-----ok         //XMLHttpRequest
+    //    queryData.then(function(_response) {
+    //     console.debug(" The data......... " + JSON.stringify(_response));
+    //     // $scope.items = _response.hits;
+    //   });
 
       // var queryData = WpJson.get({route: 'wp-api-menus', version:'v2'}).$promise;            //------ok        //Mime type -- application/json
       //  queryData.then(function(_response) {
@@ -100,12 +121,19 @@ angular.module('ewalls', ['ionic', 'ngResource'])
     }
   })
 
+.controller('userCtrl', function($scope, $ionicModal, $timeout, DataService, $http, WpJson, JsonEquals, Data) {
+    $scope.currentUserInfo = Data.getCurrentUserInfo().user
+    console.log("$scope.currentUserInfo >>>>>>>>>>>>>>"+JSON.stringify($scope.currentUserInfo))
+  })
+
+
 .factory('DataService', function($resource){              //XMLHttpRequest
-    return $resource('http://ewallsnew.mediadevstaging.com/api/:route',{ callback: "JSON_CALLBACK", format:'jsonp' }, 
+    return $resource('http://ewallsnew.mediadevstaging.com/api/:controllerName/:route',{ callback: "JSON_CALLBACK", format:'jsonp', controller:'@controller',method:'@method', username:'@username',password:'@password', insecure:'@insecure'}, 
         { 
           'get': {
             method:'JSONP', 
             params: { 
+              controllerName:"@controllerName",
               route: "@route"
             }
           },
@@ -153,4 +181,19 @@ angular.module('ewalls', ['ionic', 'ngResource'])
           'delete': {method:'DELETE'} 
         }
       );
+})
+
+
+.factory('Data', function () {
+    var data = {
+        userInfo: {}
+    }
+    return {
+        getCurrentUserInfo: function () {
+            return data.userInfo;
+        },
+        setCurrentUserInfo: function (userInfo) {
+            data.userInfo = userInfo;
+        }
+    }
 })
