@@ -7,6 +7,8 @@ Important points, that should be take care
 
 	```javascript
 	meteor create React-simple-app
+	cd React-simple-app
+	meteor
 	meteor npm install
 	meteor npm install --save react react-dom
 	meteor npm install --save react react-dom
