@@ -1,0 +1,60 @@
+<div class="container" style="min-height:100%">
+  <div class="row">
+    <div class="col-md-8">
+        <h1 class="entry-title"><span>Games</span> </h1>
+        <hr>
+        <p>our game detials ..</p>
+        <form name="gameInsertionForm" ng-submit="addGame(gameDetails)" method="post" enctype="multipart/form-data">   
+          <h3>{{$ctrl.games}}</h3>
+          <table class="table table-bordered"> 
+            <thead> 
+              <tr> 
+                <th>#</th> 
+                <th>Game Name</th> 
+                <th>Category</th> 
+                <th>Picture</th> 
+                <th>Description</th> 
+                <th>Action</th> 
+              </tr> 
+            </thead> 
+            <tbody> 
+              <tr> 
+                <th scope="row">1</th> 
+                <td>Mark</td> 
+                <td>Otto</td> 
+                <td>@mdo</td> 
+                <td>@mdo</td>
+                <td>@mdo</td> 
+              </tr> 
+              <tr> 
+                <th scope="row">2</th> 
+                <td>Jacob</td> 
+                <td>Thornton</td> 
+                <td>@fat</td> 
+                <td>@mdo</td> 
+                <td>@mdo</td>
+              </tr> 
+              <tr ng-repeat="game in games"> 
+                <th scope="row">{{ games }}</th> 
+                <td>{{ game.name }}</td> 
+                <td>{{ game.category }}</td> 
+                <td></td>
+                <td>{{ game.desc }}</td> 
+                <td><img src="/image/update.png">&nbsp;&nbsp;&nbsp;<img src="/image/delete.png"></td> 
+              </tr> 
+              <tr> 
+                <th scope="row">*</th> 
+                <td><input ng-model="gameDetails.name" type="text" class="form-control" name="gamename" id="gamename" placeholder="Enter game name" value=""></td> 
+                <td><input ng-model="gameDetails.category" type="text" class="form-control" name="gamecategory" id="gamecategory" placeholder="Enter game category" value=""></td> 
+                <td><input ng-model="gameDetails.picture" type="file" class="form-control" name="gamepic" id="gamepic" value=""></td> 
+                <td><input ng-model="gameDetails.desc" type="text" class="form-control" name="gamedesc" id="gamedesc" placeholder="Enter game description" value=""></td> 
+                <td><input name="Submit" type="submit" value="Add Game" class="btn btn-primary"></td>
+              </tr> 
+            </tbody> 
+          </table>
+        </form>
+
+        
+    </div>
+  </div>
+</div>

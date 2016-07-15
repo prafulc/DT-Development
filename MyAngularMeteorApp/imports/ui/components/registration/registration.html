@@ -1,0 +1,82 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+        <h1 class="entry-title"><span>Sign Up</span> </h1>
+        <hr>
+
+        <form class="form-horizontal" method="post" name="signupForm" ng-submit="createUser(userDetails)" id="signup" enctype="multipart/form-data" >        
+          
+          <div class="form-group">
+            <label class="control-label col-sm-3">Email ID <span class="text-danger">*</span></label>
+            <div class="col-md-8 col-sm-9">
+              <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                <input ng-model="userDetails.email" type="email" class="form-control" name="emailid" id="emailid" placeholder="Enter your Email ID" value="">
+              </div>
+              <small> Your Email Id is being used for ensuring the security of your account, authorization and access recovery. </small> </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="control-label col-sm-3">Set Password <span class="text-danger">*</span></label>
+            <div class="col-md-5 col-sm-8">
+              <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                <input ng-model="userDetails.password" type="password" class="form-control" name="password" id="password" placeholder="Choose password (5-15 chars)" value="">
+              </div>   
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-3">Confirm Password <span class="text-danger">*</span></label>
+            <div class="col-md-5 col-sm-8">
+              <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                <input ng-model="userDetails.repassword" type="password" class="form-control" name="cpassword" id="cpassword" placeholder="Confirm your password" value="">
+              </div>  
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-3">Full Name <span class="text-danger">*</span></label>
+            <div class="col-md-8 col-sm-9">
+              <input ng-model="userDetails.fullname" type="text" class="form-control" name="mem_name" id="mem_name" placeholder="Enter your Name here" value="">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">Gender <span class="text-danger">*</span></label>
+            <div class="col-md-8 col-sm-9">
+              <label>
+              <input name="gender" ng-model="userDetails.gender" type="radio" value="Male" checked>
+              Male </label>
+                 
+              <label>
+              <input name="gender" ng-model="userDetails.gender" type="radio" value="Female" >
+              Female </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">Contact No. <span class="text-danger">*</span></label>
+            <div class="col-md-5 col-sm-8">
+              <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+              <input ng-model="userDetails.contact" type="text" class="form-control" name="contactnum" id="contactnum" placeholder="Enter your Primary contact no." value="">
+              </div>
+            </div>
+          </div>
+          
+
+          <div class="form-group">
+            <div class="col-xs-offset-3 col-md-8 col-sm-9"><span class="text-muted"><span class="label label-danger">Note:-</span> By clicking Sign Up, you agree to our <a href="#">Terms</a> and that you have read our <a href="#">Policy</a>, including our <a href="#">Cookie Use</a>.</span> </div>
+          </div>
+          <div class="form-group">
+            <div class="col-xs-offset-3 col-xs-10">
+              <input name="Submit" type="submit" value="Sign Up" class="btn btn-primary">
+            </div>
+          </div>
+        </form>
+
+        <input name="Submit" type="button" ng-click="test()" value="PLEASE CLICK ME" class="btn btn-primary">
+    
+    </div>
+  </div>
+</div>
