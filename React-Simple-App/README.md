@@ -3,7 +3,7 @@ In that, there is only simple form with two inputs fields.
 
 
 Important points, that should be take care
-- You have to install redex in you machine and also install its complementary packages if needed.
+- You have to install react packages in you machine and also install its complementary packages if needed.
 
 	```javascript
 	meteor create React-simple-app
