@@ -1,0 +1,58 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+        <h1 class="entry-title"><span>Update Games</span> </h1>
+        <hr>
+        <h3>{{game[0].name}}</h3>
+        <form class="form-horizontal" method="post" name="updateGameForm" ng-submit="updateGame(userDetails)" id="signup" enctype="multipart/form-data" >        
+          
+          <div class="form-group">
+            <label class="control-label col-sm-3">Game Name <span class="text-danger">*</span></label>
+            <div class="col-md-8 col-sm-9">
+              <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                <input ng-model="gameDetails.name" type="text" class="form-control" name="gamename" id="gamename" ng-value="{{game[0].name}}" >
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="control-label col-sm-3">Game Category <span class="text-danger">*</span></label>
+            <div class="col-md-5 col-sm-8">
+              <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                <input ng-model="gameDetails.category" type="text" class="form-control" name="gamecategory" id="gamecategory" placeholder="Enter game category" value="{{ game[0].category }}">
+              </div>   
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-3">Game Icon <span class="text-danger">*</span></label>
+            <div class="col-md-5 col-sm-8">
+              <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                <input ng-model="gameDetails.picture" type="file" class="form-control" name="gamepic" id="gamepic" value="">
+              </div>  
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-3">Game Description <span class="text-danger">*</span></label>
+            <div class="col-md-8 col-sm-9">
+              <input ng-model="gameDetails.desc" type="text" class="form-control" name="gamedesc" id="gamedesc" placeholder="Enter game description" value="{{ game[0].desc }}">
+            </div>
+          </div>
+
+          <!--<div class="form-group">
+            <div class="col-xs-offset-3 col-md-8 col-sm-9"><span class="text-muted"><span class="label label-danger">Note:-</span> By clicking Sign Up, you agree to our <a href="#">Terms</a> and that you have read our <a href="#">Policy</a>, including our <a href="#">Cookie Use</a>.</span> </div>
+          </div>-->
+          <div class="form-group">
+            <div class="col-xs-offset-3 col-xs-10">
+              <input name="Submit" type="submit" value="Update Game" class="btn btn-primary">
+            </div>
+          </div>
+        </form>
+
+        <input name="button" type="button" ng-click="test()" value="PLEASE CLICK ME" class="btn btn-primary">
+    
+    </div>
+  </div>
+</div>

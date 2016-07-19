@@ -18,6 +18,7 @@
         <ul class="nav navbar-nav">
           <li class="active"><a href="/">Home</a></li>
           <li ng-if="$ctrl.currentUser"><a href="/games">Games</a></li>
+          <li ng-if="$ctrl.currentUser"><a href="/bikes">Bikes</a></li>
 
           <li><a href="#">Link</a></li>
           <li class="dropdown">
@@ -50,8 +51,8 @@
       							<div class="col-md-12">
       								Login via
       								<div class="social-buttons">
-      									<a href="#" class="btn btn-fb"><i class="fa fa-facebook"></i> Facebook</a>
-      									<a href="#" class="btn btn-tw"><i class="fa fa-twitter"></i> Twitter</a>
+      									<a href="" ng-click="$ctrl.facebookLogin()" class="btn btn-fb"><i class="fa fa-facebook"></i> Facebook</a>
+      									<a href="" class="btn btn-tw"><i class="fa fa-twitter"></i> Twitter</a>
       								</div>
                                       or
       								 <form class="form" role="form" method="post" ng-submit="$ctrl.userLogin(credentials)" accept-charset="UTF-8" id="login-nav">
@@ -62,7 +63,7 @@
       										<div class="form-group">
       											 <label class="sr-only" for="exampleInputPassword2">Password</label>
       											 <input ng-model="credentials.password" type="password" class="form-control" id="exampleInputPassword2" placeholder="Password" required>
-                            <div class="help-block text-right"><a href="">Forget the password ?</a></div>
+                            <div class="help-block text-right"><a href="/forgot-password">Forget the password ?</a></div>
       										</div>
       										<div class="form-group">
       											 <button type="submit" class="btn btn-primary btn-block">Sign in</button>
@@ -85,12 +86,15 @@
 
         <!-- else show him accounts dropdown -->
         <ul ng-if="$ctrl.currentUser" class="nav navbar-nav navbar-right">
-          <li><p class="navbar-text">{{ $ctrl.currentUser.emails[0].address }}</p></li>
+          <li>
+            <p class="navbar-text" nf-if="$ctrl.currentUser.emails[0].address">{{ $ctrl.currentUser.emails[0].address }}</p>
+            <p class="navbar-text" nf-if="!$ctrl.currentUser.emails[0].address">{{ $ctrl.currentUser.services.facebook.email }}</p>
+          </li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="#">Profile</a></li>
-              <li><a href="#">Change Password</a></li>
+              <li ng-if="$ctrl.currentUser.emails"><a href="/change-password" >Change Password</a></li>
               <li><a href="" ng-click="$ctrl.userLogout()">Logout</a></li>
               <!--<li class="divider"></li>
               <li><a href="#">Separated link</a></li>

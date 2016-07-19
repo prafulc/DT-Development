@@ -2,14 +2,12 @@ import angular from 'angular';
 import angularMeteor from 'angular-meteor';
 import homeTemplate from './myHome.html';
 import uiRouter from 'angular-ui-router';
-//import { Registration } from './registration/registration';
-import UserRegistration from './registration/registration';
-import Games from './games/games';
+
 
 class myHomeController{
 	constructor($scope){
 		$scope.viewModel(this);
-	
+		console.log(">home");
 		this.stations = [
 			{
 				name: 'Lucknow Jn.',
@@ -33,8 +31,6 @@ class myHomeController{
 export default angular.module('myHome',[
 	angularMeteor,
 	uiRouter,
-	UserRegistration.name,
-	Games.name
 ])
 
 .component(
@@ -43,23 +39,12 @@ export default angular.module('myHome',[
 		templateUrl: 'imports/ui/components/myHome.html',
 		controller: ['$scope', myHomeController]
 	}
-).config(config);
+).config(config).run(run);
 
 function config($locationProvider, $urlRouterProvider, $stateProvider) {
   	'ngInject';
   	$locationProvider.html5Mode(true);
-/* 	$stateProvider
-  
-    .state('registration', {
-      url: '/user-registration',
-      templateUrl: 'imports/ui/components/registration/registration.html',
-      controller: ['$scope', UserRegistration]
-    }) */
 
-    /*.state('page-not-found', {
-      url: '/page-not-found',
-      templateUrl: 'imports/ui/components/page-not-found/page-not-found.html'
-    })*/
 	$stateProvider
 		.state('home', {
 	      url: '/',
@@ -67,5 +52,18 @@ function config($locationProvider, $urlRouterProvider, $stateProvider) {
 	      controller: ['$scope', myHomeController]
 	    }) 
 
+
  	$urlRouterProvider.otherwise('/');
+}
+
+function run($rootScope, $state) {
+  'ngInject';
+ 
+  $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error)
+  	{
+      if (error === 'AUTH_REQUIRED') {
+        $state.go('home');
+      }
+    }
+  );
 }

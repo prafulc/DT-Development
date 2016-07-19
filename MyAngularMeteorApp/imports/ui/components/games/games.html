@@ -1,11 +1,11 @@
 <div class="container" style="min-height:100%">
   <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-8" ng-controller="gameCtrl">
         <h1 class="entry-title"><span>Games</span> </h1>
         <hr>
-        <p>our game detials ..</p>
+        <br/>
         <form name="gameInsertionForm" ng-submit="addGame(gameDetails)" method="post" enctype="multipart/form-data">   
-          <h3>{{$ctrl.games}}</h3>
+
           <table class="table table-bordered"> 
             <thead> 
               <tr> 
@@ -17,31 +17,7 @@
                 <th>Action</th> 
               </tr> 
             </thead> 
-            <tbody> 
-              <tr> 
-                <th scope="row">1</th> 
-                <td>Mark</td> 
-                <td>Otto</td> 
-                <td>@mdo</td> 
-                <td>@mdo</td>
-                <td>@mdo</td> 
-              </tr> 
-              <tr> 
-                <th scope="row">2</th> 
-                <td>Jacob</td> 
-                <td>Thornton</td> 
-                <td>@fat</td> 
-                <td>@mdo</td> 
-                <td>@mdo</td>
-              </tr> 
-              <tr ng-repeat="game in games"> 
-                <th scope="row">{{ games }}</th> 
-                <td>{{ game.name }}</td> 
-                <td>{{ game.category }}</td> 
-                <td></td>
-                <td>{{ game.desc }}</td> 
-                <td><img src="/image/update.png">&nbsp;&nbsp;&nbsp;<img src="/image/delete.png"></td> 
-              </tr> 
+            <tbody>  
               <tr> 
                 <th scope="row">*</th> 
                 <td><input ng-model="gameDetails.name" type="text" class="form-control" name="gamename" id="gamename" placeholder="Enter game name" value=""></td> 
@@ -50,6 +26,14 @@
                 <td><input ng-model="gameDetails.desc" type="text" class="form-control" name="gamedesc" id="gamedesc" placeholder="Enter game description" value=""></td> 
                 <td><input name="Submit" type="submit" value="Add Game" class="btn btn-primary"></td>
               </tr> 
+              <tr ng-repeat="game in games"> 
+                <th scope="row">{{ $index + 1 }}</th> 
+                <td>{{ game.name?game.name:'' }}</td>
+                <td>{{ game.category?game.category:'' }}</td> 
+                <td></td>
+                <td>{{ game.desc?game.desc:'' }}</td> 
+                <td><a href="/updateGame/{{game._id}}"><img src="/image/update.png" id="{{game._id}}" style="cursor:pointer;" height="30px" width="30px" title="Edit" /></a>&nbsp;&nbsp;&nbsp;<img src="/image/delete.png" ng-click="deleteGame(this.game._id)" id="{{game._id}}" style="cursor:pointer;" height="30px" width="30px" title="Delete" /></td> 
+              </tr>
             </tbody> 
           </table>
         </form>

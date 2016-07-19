@@ -1,0 +1,60 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+        <h1 class="entry-title"><span>Bikes</span> </h1>
+        <hr>
+
+        <!--<form name="vm.someForm" ng-submit="vm.handleSubmit()">
+		  <formly-form model="vm.model" fields="vm.fields" options="vm.options">
+		    <button type="submit" ng-disabled="vm.someForm.$invalid">Submit</button>
+		    <button type="button" ng-click="vm.options.resetModel()">Reset</button>
+		  </formly-form>
+		</form>-->
+
+		<formly-form model="vm.user" fields="vm.userFields">
+			<button type="submit" class="btn btn-default" ng-click="vm.submit(vm.user)">Submit</button>
+		</formly-form>
+        
+        <!--<form class="form-horizontal" method="post" name="updateGameForm" ng-submit="updateGame(userDetails)" id="signup" enctype="multipart/form-data" >        
+          
+          <div class="form-group">
+            <label class="control-label col-sm-3">Old Password <span class="text-danger">*</span></label>
+            <div class="col-md-8 col-sm-9">
+              <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                <input ng-model="credentials.oldPassword" type="password" class="form-control" name="oldPassword" id="oldPassword"  >
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="control-label col-sm-3">New Password <span class="text-danger">*</span></label>
+            <div class="col-md-5 col-sm-8">
+              <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                <input ng-model="credentials.newPassword" type="password" class="form-control" name="newPassword" id="newPassword" placeholder="Enter game category" value="{{ game[0].category }}">
+              </div>   
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-3">Re-type New Password<span class="text-danger">*</span></label>
+            <div class="col-md-5 col-sm-8">
+              <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                <input ng-model="credentials.reTypeNewPassword" type="password" class="form-control" name="againNewPassword" id="againNewPassword" value="">
+              </div>  
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-xs-offset-3 col-xs-10">
+              <input name="Submit" type="submit" value="Update Game" class="btn btn-primary">
+            </div>
+          </div>
+        </form>
+
+        <input name="button" type="button" ng-click="test()" value="PLEASE CLICK ME" class="btn btn-primary">-->
+    
+    </div>
+  </div>
+</div>
