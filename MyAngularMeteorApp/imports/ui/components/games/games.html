@@ -3,7 +3,27 @@
     <div class="col-md-8" ng-controller="gameCtrl">
         <h1 class="entry-title"><span>Games</span> </h1>
         <hr>
-        <br/>
+        <br/>  
+        <div class="col-xs-4">
+          <div class="form-group">
+            <label for="sel1">Order by name:</label>
+            <select class="form-control" id="sel1" ng-model="orderProperty">
+              <option value="1">Ascending</option>
+              <option value="-1">Descending</option>
+            </select>
+          </div>  
+        </div>
+
+        <div class="col-xs-4">
+          <label for="search">Search:</label>
+          <input ng-model="searchString" id="search" class="form-control" placeholder="Filter text">
+        </div>
+        
+        <div class="col-xs-4">
+          <label for="search">items per page:</label>
+          <input type="number" min="1" max="100" class="form-control" ng-model="perPage">
+        </div>        
+        
         <form name="gameInsertionForm" ng-submit="addGame(gameDetails)" method="post" enctype="multipart/form-data">   
 
           <table class="table table-bordered"> 
@@ -22,11 +42,13 @@
                 <th scope="row">*</th> 
                 <td><input ng-model="gameDetails.name" type="text" class="form-control" name="gamename" id="gamename" placeholder="Enter game name" value=""></td> 
                 <td><input ng-model="gameDetails.category" type="text" class="form-control" name="gamecategory" id="gamecategory" placeholder="Enter game category" value=""></td> 
-                <td><input ng-model="gameDetails.picture" type="file" class="form-control" name="gamepic" id="gamepic" value=""></td> 
+                <td><input type="file" custom-on-change="uploadFile()" class="form-control" name="gamepic" id="gamepic" value=""></td> 
                 <td><input ng-model="gameDetails.desc" type="text" class="form-control" name="gamedesc" id="gamedesc" placeholder="Enter game description" value=""></td> 
                 <td><input name="Submit" type="submit" value="Add Game" class="btn btn-primary"></td>
               </tr> 
-              <tr ng-repeat="game in games"> 
+              <!--<tr ng-repeat="game in games">-->
+              <tr dir-paginate="game in games | itemsPerPage: perPage" total-items="gamesCount.count">
+
                 <th scope="row">{{ $index + 1 }}</th> 
                 <td>{{ game.name?game.name:'' }}</td>
                 <td>{{ game.category?game.category:'' }}</td> 
@@ -36,6 +58,7 @@
               </tr>
             </tbody> 
           </table>
+          <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
         </form>
 
         

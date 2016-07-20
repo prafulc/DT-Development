@@ -3,10 +3,37 @@ import { Mongo } from 'meteor/mongo';
 export const Games = new Mongo.Collection('games');
 
 if(Meteor.isServer){
-	Meteor.publish('games', function(){
-		//console.log("Games are ->", Games.find({}).fetch());
-		return Games.find();
-	})
+
+	Meteor.publish('games', function(options, searchString) {
+		if(searchString==null){
+			searchString ='';
+		}
+
+		//console.log(">>> Options are. <<<", options);
+		Counts.publish(this, 'numberOfGames', Games.find({ 'name': 
+	    		{
+	    			'$regex': '.*'+searchString || '' + '.*',
+	    			'$options': 'i'
+	    		} 
+	    	}), { noReady: true });
+		
+		/*console.log("> > > ",Games.find(
+	    	{ 'name': 
+	    		{
+	    			'$regex': '.*'+searchString || '' + '.*',
+	    			'$options': 'i'
+	    		} 
+	    	}, options).fetch());*/
+
+	    return Games.find(
+	    	{ 'name': 
+	    		{
+	    			'$regex': '.*'+searchString || '' + '.*',
+	    			'$options': 'i'
+	    		} 
+	    	}, options);
+
+	});
 }
 
 Games.allow({

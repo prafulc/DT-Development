@@ -26,6 +26,11 @@ class myHomeController{
 			}
 		];
 	}
+
+	areWeAtHome(){
+		return true;
+	}
+
 }
 
 export default angular.module('myHome',[

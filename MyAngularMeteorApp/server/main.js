@@ -17,3 +17,9 @@ Meteor.methods({
 		console.log("-> Mail send!");
 	}
 })
+
+Images = new FS.Collection("images", {
+    stores: [
+      new FS.Store.FileSystem("images", {path: '~/uploads'})
+    ]
+});

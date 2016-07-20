@@ -1,11 +1,11 @@
 <div style="border:2px solid grey; background: silver; opacity:0.9">
 	
   <div ui-view=""></div>
-  <!--<ul>
+  <ul ng-show="$ctrl.areWeAtHome()">
     <li ng-repeat="station in $ctrl.stations">
       <h3>{{ station.name }}</h3>
       <p>{{ station.description }}</p>
       <p>{{ station.location }}</p>
     </li>
-  </ul>-->
+  </ul>
 </div>

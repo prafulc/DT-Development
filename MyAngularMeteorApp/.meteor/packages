@@ -22,3 +22,6 @@ angular-templates
 accounts-password
 email
 tmeasday:publish-counts
+meteortoys:allthings
+cfs:standard-packages
+cfs:filesystem
