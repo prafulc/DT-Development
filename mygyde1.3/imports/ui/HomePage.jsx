@@ -21,7 +21,7 @@ import Contact from '../ui/Contact.jsx';
 
 
 export default class HomePage extends React.Component {
-  render(){
+  	render(){
 		return( 
 			<div>
 				<Slider />

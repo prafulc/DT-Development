@@ -5,7 +5,7 @@ import { render } from 'react-dom';
 
 export default class Footer extends React.Component {
 	componentDidMount(){
-  	!function(d,s,id){
+  		!function(d,s,id){
 			var js;
 			var fjs=d.getElementsByTagName(s)[0];
 			var p=/^http:/.test(d.location)?'http':'https';
@@ -16,7 +16,7 @@ export default class Footer extends React.Component {
 				fjs.parentNode.insertBefore(js,fjs);
 			}
 		}(document, 'script', 'twitter-wjs');
-  }
+  	}
 
 	render(){
 		return(
@@ -26,8 +26,8 @@ export default class Footer extends React.Component {
 						<div className="content-block short-about">
 							<h5 className="block-heading">MyGyde Legal Disclaimer</h5>
 							<p className="justified">
-		            MyGyde is not held accountable to any advice from any of our mentors. This web site is a general service that connects mentees to mentors over the Internet. We are not an accredited firm and our mentors are acting as independent consultant. Any guarantee on the Site is subject to our Terms and Conditions. For the most part, our Terms and Conditions specify that there is no guarantee or warranty and that we are not responsible for any loss, injury, claim, liability, or damage ("damages") related to your use of this Site, whether from errors or omissions in the messages of our mentors or any information on our site.
-		          </p>
+		            			MyGyde is not held accountable to any advice from any of our mentors. This web site is a general service that connects mentees to mentors over the Internet. We are not an accredited firm and our mentors are acting as independent consultant. Any guarantee on the Site is subject to our Terms and Conditions. For the most part, our Terms and Conditions specify that there is no guarantee or warranty and that we are not responsible for any loss, injury, claim, liability, or damage ("damages") related to your use of this Site, whether from errors or omissions in the messages of our mentors or any information on our site.
+		          			</p>
 
 							<ul className="social-links">
 								<li>

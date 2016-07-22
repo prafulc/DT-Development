@@ -35,29 +35,29 @@ export default class MainLayout extends Component {
 	 	*/
 		/* REMOVING PRELOADER */
 		$(window).on('load', function() {
-	    $('.pre-loader').fadeOut('slow').remove();
+	    	$('.pre-loader').fadeOut('slow').remove();
 		});
 
 		/*** Initializing the main carousel ***/
 
 		$('#n-carousel').carousel({
-	    interval: 8000,
-	    pause: false
+		    interval: 8000,
+		    pause: false
 		});
 
 
 		/*** Initializing the smooth scroll ***/
 
 		smoothScroll.init({
-	    updateURL: false
+	    	updateURL: false
 		});
 
 
 		if (window.location.hash) {
-	    var options = {
-	      speed: 1000
-	    }; // Any custom options you want to use would go here
-	    smoothScroll.animateScroll(null, window.location.hash, options);
+		    var options = {
+		      	speed: 1000
+		    }; // Any custom options you want to use would go here
+		    smoothScroll.animateScroll(null, window.location.hash, options);
 		}
 
 
@@ -73,7 +73,7 @@ export default class MainLayout extends Component {
 		/*** making scroll spy ***/
 
 		$('body').scrollspy({
-	    target: '#n-main-nav'
+	    	target: '#n-main-nav'
 		});
 
 
@@ -105,11 +105,11 @@ export default class MainLayout extends Component {
 		/*** making carousel image to background image ***/
 
 		$('#n-carousel .item .carousel-image').each(function() {
-	    var imgSrc = $(this).attr('src');
+		    var imgSrc = $(this).attr('src');
 
-	    $(this).parent().css('background-image', 'url(' + imgSrc + ')');
+		    $(this).parent().css('background-image', 'url(' + imgSrc + ')');
 
-	    $(this).remove();
+		    $(this).remove();
 		});
 
 		/*** creating carousel indicators */
@@ -117,13 +117,13 @@ export default class MainLayout extends Component {
 		var slideNum = $('#n-carousel .item').length;
 
 		for (var i = 0; i < slideNum; i++) {
-	    var insertData = '<li data-target="#n-carousel" data-slide-to="' + i + '"';
+	    	var insertData = '<li data-target="#n-carousel" data-slide-to="' + i + '"';
 
-	    if (i == 0) {
-	      insertData += 'className="active"';
-	    }
+		    if (i == 0) {
+		      	insertData += 'className="active"';
+		    }
 
-	    insertData += '></li>';
+	    	insertData += '></li>';
 			$('#n-carousel ol').append(insertData);
 		}
 
@@ -221,21 +221,21 @@ export default class MainLayout extends Component {
 
 		$(window).resize(function() {
 
-	    /* adjust window of .full-height when window resize */
+		    /* adjust window of .full-height when window resize */
 
-	    windowHeight = $(window).height();
-	    windowWidth = $(window).width();
+		    windowHeight = $(window).height();
+		    windowWidth = $(window).width();
 
 
-	    $('.full-height').css('height', windowHeight);
+		    $('.full-height').css('height', windowHeight);
 
-	    /* Adjust the height of image on WHY CHOOSE US section */
+		    /* Adjust the height of image on WHY CHOOSE US section */
 
-	    var chooseHeight = $('.about-us .content-block').height();
+		    var chooseHeight = $('.about-us .content-block').height();
 
-	    if (windowWidth > 992) {
+		    if (windowWidth > 992) {
 				$('.about-us .image-block').css('height', chooseHeight + 56 + 58); // 56 + 58 comes from padding ! (im not sure !!)
-	    }	
+		    }	
 		});
 	}
 }

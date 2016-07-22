@@ -82,7 +82,7 @@ export default class AboutUs extends React.Component {
 						</div>
 					</div> {/* .row ends */}
 				</div> {/* .container-fluid ends */}
-		  </section>
+		  	</section>
 		)
 	}
 }

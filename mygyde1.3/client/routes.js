@@ -27,10 +27,10 @@ FlowRouter.notFound = {
 };*/
 
 FlowRouter.route('/', {
-  name: 'home',
-  action() {
-    mount(MainLayout,{content: <HomePage />});
-  }
+  	name: 'home',
+  	action() {
+    	mount(MainLayout,{content: <HomePage />});
+  	}
 });
 
 FlowRouter.route('/signup', {
@@ -42,24 +42,24 @@ FlowRouter.route('/signup', {
 
 
 FlowRouter.route('/MenteeSignIn',{
-  name: 'MenteeSignIn',
-  action() {
-    mount(MainLayout,{content: <MenteeLoggedIn />})
-  }
+  	name: 'MenteeSignIn',
+  	action() {
+    	mount(MainLayout,{content: <MenteeLoggedIn />})
+  	}
 });
 
 FlowRouter.route('/mentor/:_id', {
 	name: 'mentor',
 	action(params) {
-  	mount(MainLayout, {content: <MentorHome id={params._id} />});
+  		mount(MainLayout, {content: <MentorHome id={params._id} />});
 	}
 });
 
 FlowRouter.route('/profile', {
-  name: 'profile',
-  action() {
-    mount(MainLayout, {content: <MentorProfile />});
-  }
+  	name: 'profile',
+  	action() {
+    	mount(MainLayout, {content: <MentorProfile />});
+  	}
 });
 
 

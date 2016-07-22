@@ -9,7 +9,7 @@ export default class PreLoader extends React.Component {
 			<section className="pre-loader">
 				<h3 className="sr-only">Pre loader</h3>
 			    <div className="loader-inner ball-scale">
-			      <div></div>
+			      	<div></div>
 			    </div>
 			</section>
 		)

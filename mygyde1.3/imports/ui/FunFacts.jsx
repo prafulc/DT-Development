@@ -3,7 +3,6 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 
-
 export default class FunFacts extends React.Component {
 	render(){
 		return(

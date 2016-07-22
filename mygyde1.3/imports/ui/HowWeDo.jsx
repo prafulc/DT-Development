@@ -23,7 +23,7 @@ export default class HowWeDo extends React.Component {
 									Mentors are more powerful than you can possibly imagine in their ability to transform a mentee’s life. MyGyde encourages individuals from all walks of life to contribute and give back. If you believe that others can learn from your experience and would like to coach aspiring individuals then go ahead and join. We all have unique experiences that others would like to know more about. How did you learn Russian? What is the best way to plan a backpacking trip through South East Asia? How did you prepare for your interview at Tesla?  How did you start your own bakery business?
 								</p>
 							</div>
-			        <div className="row process">
+			        		<div className="row process">
 								
 								<div className="col-md-4 clearfix">
 									<div className="icon-block-wrapper">
@@ -61,14 +61,14 @@ export default class HowWeDo extends React.Component {
 									</div>
 								</div>
 							</div>
-					    <div className="process col-md-4 col-md-offset-4 become-btn" >
-					      <div className="caption-btns">
-					        <button className="btn btn-main" onClick={this.handleClick}>Become A Mentor</button>
-					      </div>
-					    </div> 
+						    <div className="process col-md-4 col-md-offset-4 become-btn" >
+						      	<div className="caption-btns">
+						        	<button className="btn btn-main" onClick={this.handleClick}>Become A Mentor</button>
+						      	</div>
+						    </div> 
 						</div>
 					</div>
-			  </div>
+			  	</div>
 			</section>
 		)
 	}
