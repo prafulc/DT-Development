@@ -9,7 +9,7 @@ if (Meteor.isServer) {
    		})
  	});
 
-  /*------------------ Code for sending message on verification email for mentor and mentee ------------------*/
+  	/*------------------ Code for sending message on verification email for mentor and mentee ------------------*/
  	
  	Accounts.emailTemplates.siteName = "MyGyde"; 
   	Accounts.emailTemplates.from = "MyGyde <notification@mygyde.org>";
@@ -25,8 +25,7 @@ if (Meteor.isServer) {
       		+"<p> The MyGyde team welcomes you to the community and looks forward to your valuable contributions.  </p>"
       		+"<p> <i>“The wise man does not lay up his own treasures. The more he gives to others, the more he has for his own”—Lao Tzu </i></p>"
       		+"<p> <b> Validate email link </b></p>" + '<a href="' + url + '">' + url + '</a>';
-    	}
-    	else if(user.profile.mtype == "mentee"){
+    	}else if(user.profile.mtype == "mentee"){
       		return "<p> Thank you for signing up to MyGyde! </p>"
       		+ "<p> MyGyde’s mission can be fundamentally reduced to one phrase: Connecting People </p>"
       		+"<p> We hope that you take this opportunity to learn from our dedicated pool of mentors and forge the right connections. No matter what part of the journey you’re on, you’ll find that MyGyde is a worthwhile stop that will help you go further.  Always remember that the knowledge you seek is out there. You just have to look in the right places, and this is a great start.</p>"

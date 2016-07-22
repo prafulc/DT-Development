@@ -119,7 +119,7 @@ class Conversation_page extends React.Component{
                 				</div>
               				);
             			}else{
-              				return (
+              				return(
                 				<div className="chat-input-box">
                   					<form role="form" onSubmit={this.submit_chat.bind(this)}>
                     					<div className="_chatFooter">

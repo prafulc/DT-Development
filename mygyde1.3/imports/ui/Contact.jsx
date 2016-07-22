@@ -52,17 +52,13 @@ export default class Contact extends React.Component {
 		let Captcha = ReactDOM.findDOMNode(this.refs.txtInput).value.trim();
 		if(name == ""){
 			Bert.alert("Please input name.", "warning", "growl-top-left");
-		}
-		else if(email == ""){
+		}else if(email == ""){
 			Bert.alert("Please input email.", "warning", "growl-top-left");
-		}
-		else if(message == ""){
+		}else if(message == ""){
 			Bert.alert("Please input message.", "warning", "growl-top-left");
-		}
-		else if(Captcha == ""){
+		}else if(Captcha == ""){
 			Bert.alert("Please input Captcha.", "warning", "growl-top-left");
-		}
-		else if(this.check()){
+		}else if(this.check()){
       		Bert.alert("Wrong Captcha.", "warning", "growl-top-left");
     	}else{
 			Meteor.call("Feedback_Email", name, email, message);
