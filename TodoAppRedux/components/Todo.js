@@ -1,8 +1,6 @@
 import React, { PropTypes } from 'react'
 import ReactEmoji from '/src/react-emoji'
 
-import { $ } from 'meteor/jquery'
-
 const Todo = ({ onClick, completed, text }) => (
   <li
     onClick={onClick}
