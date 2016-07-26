@@ -16,7 +16,7 @@ let AddTodo = ({ dispatch }) => {
         dispatch(addTodo(input.value))
         input.value = ''
       }}>
-        <input type="text" placeholder="Type to add new tasks" ref={node => {
+        <input type="text" placeholder="Type here to add new tasks" ref={node => {
           input = node
         }} />
         {/*<button id="addButton" type="submit">

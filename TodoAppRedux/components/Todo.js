@@ -1,14 +1,23 @@
 import React, { PropTypes } from 'react'
+import ReactEmoji from '/src/react-emoji'
+
+import { $ } from 'meteor/jquery'
 
 const Todo = ({ onClick, completed, text }) => (
   <li
     onClick={onClick}
     style={{
-      textDecoration: completed ? 'line-through' : 'none'
-      // background: completed ? 'green' : 'white'
+      textDecoration: completed ? 'line-through' : 'none',
+      color: completed ? 'green' : 'black'
     }}
   >
-    {text}
+    {ReactEmoji.emojify(text)}
+    {/*<button className="check">
+    	<span className="glyphicon glyphicon-ok"></span>
+    </button>
+    <button className="delete">
+    	<span className="glyphicon glyphicon-remove"></span>
+    </button>*/}
   </li>
 )
 
