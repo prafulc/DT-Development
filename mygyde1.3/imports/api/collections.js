@@ -127,7 +127,7 @@ if(Meteor.isServer){
 	  	/*-------------- Update Profile Pic -------------*/
 
 	  	updateImage: function(id){
-	  		Meteor.users.update({_id:Meteor.userId()},{
+	  		Meteor.users.update({_id: Meteor.userId()},{
 	    		$set: {"profile.image": id}
 	  		});
 	  	},
@@ -166,8 +166,8 @@ if(Meteor.isServer){
 
 	  	/*------------- Save Image -------------*/
 
-	  	saveImage: function(fileId,id){
-	  		Meteor.users.update({_id:id},{
+	  	saveImage: function(fileId, id){
+	  		Meteor.users.update({_id: id},{
 	    		$set: {"profile.image": fileId} 
 	  		});
 	  	},
